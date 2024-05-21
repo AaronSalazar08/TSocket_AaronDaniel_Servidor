@@ -21,6 +21,7 @@ public class VistaPrincipal extends JFrame {
     public JLabel Logo_Label;
     public JPanel panelVistaPrincipal = new JPanel();
     public ImageIcon Logo;
+    
 
     public VistaPrincipal() {
 
@@ -62,9 +63,7 @@ public class VistaPrincipal extends JFrame {
         botonPedidos.setIcon(iconoVolverAjustada);
         botonPedidos.addActionListener(metodos);
 
-        // botonPedidos.setOpaque(false);
-        // botonPedidos.setContentAreaFilled(false);
-        // botonPedidos.setBorderPainted(false);
+        
 
         botonEstado = new JButton("Estado Pedidos");
         botonEstado.setBounds(150, 250, 200, 30);
@@ -76,6 +75,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenEstadoAjustada = imagenEstado.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoEstadoAjustada = new ImageIcon(imagenEstadoAjustada);
         botonEstado.setIcon(iconoEstadoAjustada);
+        botonEstado.addActionListener(metodos);
 
         botonBilletera = new JButton("Tarjetas Clientes");
         botonBilletera.setBounds(150, 300, 200, 30);
@@ -87,6 +87,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenBilleteraAjustada = imagenBilletera.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoBilleteraAjustada = new ImageIcon(imagenBilleteraAjustada);
         botonBilletera.setIcon(iconoBilleteraAjustada);
+        botonBilletera.addActionListener(metodos);
 
         botonSolicitudesTrabajos = new JButton(" Ver Aplicantes");
         botonSolicitudesTrabajos.setBounds(150, 350, 200, 30);
@@ -98,6 +99,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenAplicantesAjustada = imagenAplicantes.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoAplicantesAjustada = new ImageIcon(imagenAplicantesAjustada);
         botonSolicitudesTrabajos.setIcon(iconoAplicantesAjustada);
+        botonSolicitudesTrabajos.addActionListener(metodos);
 
         botonAtencionCliente = new JButton("Buzón de Clientes");
         botonAtencionCliente.setBounds(150, 400, 200, 30);
@@ -109,6 +111,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoBuzonAjustada = new ImageIcon(imagenBuzonAjustada);
         botonAtencionCliente.setIcon(iconoBuzonAjustada);
+        botonAtencionCliente.addActionListener(metodos);
 
         botonCerrarServidor = new JButton("Cerrar Servidor");
         botonCerrarServidor.setBounds(150, 450, 200, 30);

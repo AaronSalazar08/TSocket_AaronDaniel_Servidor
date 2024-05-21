@@ -1,7 +1,11 @@
 package Controlador;
 
+import Vista.BuzonClientes;
+import Vista.Estado;
 import Vista.LogIn;
 import Vista.Pedidos;
+import Vista.Solicitudes;
+import Vista.Tarjetas;
 import Vista.VistaPrincipal;
 
 import java.awt.event.ActionEvent;
@@ -15,30 +19,105 @@ public class Metodos implements ActionListener {
 
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
+    private BuzonClientes buzonClientes;
+    private Estado estado;
+    private Tarjetas tarjetas;
+    private Solicitudes solicitudes;
+    private Pedidos pedidos;
 
     public Metodos(VistaPrincipal vistaPrincipal) {
 
         this.vistaPrincipal = vistaPrincipal;
         this.logIn = null;
+        this.buzonClientes = null;
+        this.estado = null;
+        this.tarjetas = null;
+        this.solicitudes = null;
+        this.pedidos = null;
     }
 
     public Metodos(LogIn logIn) {
 
         this.logIn = logIn;
         this.vistaPrincipal = null;
+        this.buzonClientes = null;
+        this.estado = null;
+        this.tarjetas = null;
+        this.solicitudes = null;
+        this.pedidos = null;
+    }
+
+    public Metodos(BuzonClientes buzonClientes) {
+
+        this.buzonClientes = buzonClientes;
+        this.vistaPrincipal = null;
+        this.logIn = null;
+        this.estado = null;
+        this.tarjetas = null;
+        this.solicitudes = null;
+        this.pedidos = null;
+
+    }
+
+    public Metodos(Estado estado) {
+
+        this.estado = estado;
+        this.buzonClientes = null;
+        this.vistaPrincipal = null;
+        this.logIn = null;
+        this.tarjetas = null;
+        this.solicitudes = null;
+        this.pedidos = null;
+
+    }
+
+    public Metodos(Tarjetas tarjetas) {
+
+        this.tarjetas = tarjetas;
+        this.estado = null;
+        this.buzonClientes = null;
+        this.vistaPrincipal = null;
+        this.logIn = null;
+        this.solicitudes = null;
+        this.pedidos = null;
+
+    }
+
+    public Metodos (Solicitudes solicitudes){
+
+        this.solicitudes = solicitudes;
+        this.tarjetas = null;
+        this.estado = null;
+        this.buzonClientes = null;
+        this.vistaPrincipal = null;
+        this.logIn = null;
+        this.pedidos = null;
+
+
+    }
+
+    public Metodos (Pedidos pedidos){
+
+        this.pedidos = pedidos;
+        this.solicitudes = null;
+        this.tarjetas = null;
+        this.estado = null;
+        this.buzonClientes = null;
+        this.vistaPrincipal = null;
+        this.logIn = null;
+
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-       
 
         if (logIn != null && e.getSource() == logIn.botonContinuar) {
 
             String entradaUsuario = logIn.Usuario_txt.getText().trim();
             char[] entradaContrasena = logIn.contrasena_txt.getPassword();
             String contrasenaString = new String(entradaContrasena);
-    
+
             Map<String, String> credencialesValidas = new HashMap<>();
             credencialesValidas.put("A", "1");
 
@@ -68,7 +147,39 @@ public class Metodos implements ActionListener {
             Pedidos pedidos = new Pedidos();
             pedidos.setVisible(true);
             vistaPrincipal.dispose();
-            
+
+        }
+
+        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonEstado) {
+
+            Estado estado = new Estado();
+            estado.setVisible(true);
+            vistaPrincipal.dispose();
+
+        }
+
+        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonBilletera) {
+
+            Tarjetas tarjeta = new Tarjetas();
+            tarjeta.setVisible(true);
+            vistaPrincipal.dispose();
+
+        }
+
+        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonSolicitudesTrabajos) {
+
+            Solicitudes solicitudes = new Solicitudes();
+            solicitudes.setVisible(true);
+            vistaPrincipal.dispose();
+
+        }
+
+        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonAtencionCliente) {
+
+            BuzonClientes buzonClientes = new BuzonClientes();
+            buzonClientes.setVisible(true);
+            vistaPrincipal.dispose();
+
         }
 
         if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonCerrarServidor) {
@@ -82,6 +193,46 @@ public class Metodos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
                 vistaPrincipal.dispose();
             }
+
+        }
+
+        if (buzonClientes != null && e.getSource() == buzonClientes.botonVolver) {
+
+            VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.setVisible(true);
+            buzonClientes.dispose();
+
+        }
+
+        if (estado != null && e.getSource() == estado.botonVolver) {
+
+            VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.setVisible(true);
+            estado.dispose();
+
+        }
+
+        if (tarjetas != null && e.getSource() == tarjetas.botonVolver) {
+
+            VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.setVisible(true);
+            tarjetas.dispose();
+
+        }
+
+        if (solicitudes != null && e.getSource() == solicitudes.botonVolver) {
+
+            VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.setVisible(true);
+            solicitudes.dispose();
+
+        }
+
+        if (pedidos != null && e.getSource() == pedidos.botonVolver) {
+
+            VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.setVisible(true);
+            pedidos.dispose();
 
         }
 

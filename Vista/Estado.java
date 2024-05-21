@@ -22,6 +22,8 @@ public class Estado extends JFrame {
         setSize(500, 600);
         setContentPane(panelEstado);
         panelEstado.setBackground(new Color(26, 28, 37));
+
+        panelEstado.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
         Elementos();

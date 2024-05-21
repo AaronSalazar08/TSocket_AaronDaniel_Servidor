@@ -24,6 +24,7 @@ public class Tarjetas extends JFrame{
         setSize(500, 600);
         setContentPane(panelTarjetas);
         panelTarjetas.setBackground(new Color(26, 28, 37));
+        panelTarjetas.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
         Elementos();

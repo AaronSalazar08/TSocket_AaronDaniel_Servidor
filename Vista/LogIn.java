@@ -3,6 +3,7 @@ package Vista;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ public class LogIn extends JFrame {
         setSize(300, 300);
         setContentPane(panelLogIn);
         panelLogIn.setBackground(new Color(26, 28, 37));
+        panelLogIn.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
         Elementos();

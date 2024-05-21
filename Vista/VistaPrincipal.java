@@ -3,12 +3,15 @@ package Vista;
 import java.awt.Color;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import Controlador.Metodos;
 
 public class VistaPrincipal extends JFrame {
@@ -26,6 +29,7 @@ public class VistaPrincipal extends JFrame {
         setSize(500, 600);
         setContentPane(panelVistaPrincipal);
         panelVistaPrincipal.setBackground(new Color(26, 28, 37));
+        panelVistaPrincipal.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
         Elementos();

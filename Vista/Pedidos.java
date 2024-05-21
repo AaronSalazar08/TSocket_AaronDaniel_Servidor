@@ -66,15 +66,15 @@ public class Pedidos extends JFrame {
         botonRefrescar.setBorderPainted(false);
         //botonRefrescar.addActionListener(metodos);
 
-        botonEnviar = new JButton("Enviar");
-        botonEnviar.setBounds(350, 330, 150, 30);
+        botonEnviar = new JButton();
+        botonEnviar.setBounds(350, 330, 60, 30);
         botonEnviar.setBackground(new Color(26, 28, 37));
         botonEnviar.setForeground(new Color(255, 255, 255));
         botonEnviar.setFont(fuente);
         botonEnviar.setToolTipText("Enviar respuesta al cliente sobre su pedido");
         ImageIcon iconoEnviar = new ImageIcon("Vista/Imagenes/enviar.png");
         Image imagenEnviar = iconoEnviar.getImage();
-        Image imagenEnviarAjustada = imagenEnviar.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+        Image imagenEnviarAjustada = imagenEnviar.getScaledInstance(60, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoEnviarAjustada = new ImageIcon(imagenEnviarAjustada);
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);

@@ -8,9 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import Controlador.Metodos;
 
@@ -21,7 +18,6 @@ public class VistaPrincipal extends JFrame {
     public JLabel Logo_Label;
     public JPanel panelVistaPrincipal = new JPanel();
     public ImageIcon Logo;
-    
 
     public VistaPrincipal() {
 
@@ -38,9 +34,7 @@ public class VistaPrincipal extends JFrame {
 
     public void Elementos() {
 
-
         Metodos metodos = new Metodos(this);
-    
 
         Logo = new ImageIcon("Vista/Imagenes/PIZZA_ROMA.png");
         Image imagenLogo = Logo.getImage();
@@ -62,8 +56,6 @@ public class VistaPrincipal extends JFrame {
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonPedidos.setIcon(iconoVolverAjustada);
         botonPedidos.addActionListener(metodos);
-
-        
 
         botonEstado = new JButton("Estado Pedidos");
         botonEstado.setBounds(150, 250, 200, 30);
@@ -101,17 +93,18 @@ public class VistaPrincipal extends JFrame {
         botonSolicitudesTrabajos.setIcon(iconoAplicantesAjustada);
         botonSolicitudesTrabajos.addActionListener(metodos);
 
-        botonAtencionCliente = new JButton("Buzón de Clientes");
-        botonAtencionCliente.setBounds(150, 400, 200, 30);
+        botonAtencionCliente = new JButton();
+        botonAtencionCliente.setBounds(300, 500, 60, 35);
         botonAtencionCliente.setBackground(new Color(111, 113, 121));
         botonAtencionCliente.setForeground(new Color(255, 255, 255));
         botonAtencionCliente.setToolTipText("Atender a los clientes con sus inquietudes");
         ImageIcon iconoBuzon = new ImageIcon("Vista/Imagenes/buzonClientes.png");
         Image imagenBuzon = iconoBuzon.getImage();
-        Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+        Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(60, 35, Image.SCALE_SMOOTH);
         ImageIcon iconoBuzonAjustada = new ImageIcon(imagenBuzonAjustada);
         botonAtencionCliente.setIcon(iconoBuzonAjustada);
         botonAtencionCliente.addActionListener(metodos);
+        botonAtencionCliente.setBorderPainted(false);
 
         botonCerrarServidor = new JButton();
         botonCerrarServidor.setBounds(380, 500, 60, 30);

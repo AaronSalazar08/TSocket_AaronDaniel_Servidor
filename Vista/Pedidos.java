@@ -100,7 +100,7 @@ public class Pedidos extends JFrame {
         indicacionCliente.setForeground(new Color(255, 255, 255));
         indicacionCliente.setFont(fuente);
 
-        respuestaLabel = new JLabel("Su respuesta:  ");
+        respuestaLabel = new JLabel("Tu respuesta:  ");
         respuestaLabel.setBounds(30, 290, 200, 30);
         respuestaLabel.setForeground(new Color(255, 255, 255));
         respuestaLabel.setFont(fuente);

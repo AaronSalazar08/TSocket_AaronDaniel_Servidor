@@ -1,13 +1,14 @@
 package Controlador;
 
-import Vista.VistaPrincipal;
+import Vista.LogIn;
 
 public class Principal {
 
     public static void main(String[] args) {
-        
-        VistaPrincipal vistaPrincipal = new VistaPrincipal();
-        vistaPrincipal.setVisible(true);
+
+        LogIn logIn = new LogIn();
+        logIn.setVisible(true);
+
     }
 
 }

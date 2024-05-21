@@ -21,8 +21,6 @@ public class VistaPrincipal extends JFrame {
     public JLabel Logo_Label;
     public JPanel panelVistaPrincipal = new JPanel();
     public ImageIcon Logo;
-    
-    
 
     public VistaPrincipal() {
 
@@ -39,7 +37,9 @@ public class VistaPrincipal extends JFrame {
 
     public void Elementos() {
 
+
         Metodos metodos = new Metodos(this);
+    
 
         Logo = new ImageIcon("Vista/Imagenes/PIZZA_ROMA.png");
         Image imagenLogo = Logo.getImage();
@@ -60,6 +60,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonPedidos.setIcon(iconoVolverAjustada);
+        botonPedidos.addActionListener(metodos);
 
         // botonPedidos.setOpaque(false);
         // botonPedidos.setContentAreaFilled(false);
@@ -98,7 +99,6 @@ public class VistaPrincipal extends JFrame {
         ImageIcon iconoAplicantesAjustada = new ImageIcon(imagenAplicantesAjustada);
         botonSolicitudesTrabajos.setIcon(iconoAplicantesAjustada);
 
-
         botonAtencionCliente = new JButton("Buzón de Clientes");
         botonAtencionCliente.setBounds(150, 400, 200, 30);
         botonAtencionCliente.setBackground(new Color(111, 113, 121));
@@ -109,7 +109,6 @@ public class VistaPrincipal extends JFrame {
         Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoBuzonAjustada = new ImageIcon(imagenBuzonAjustada);
         botonAtencionCliente.setIcon(iconoBuzonAjustada);
-
 
         botonCerrarServidor = new JButton("Cerrar Servidor");
         botonCerrarServidor.setBounds(150, 450, 200, 30);

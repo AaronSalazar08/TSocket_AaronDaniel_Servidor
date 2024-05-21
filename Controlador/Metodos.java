@@ -185,10 +185,10 @@ public class Metodos implements ActionListener {
         if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonCerrarServidor) {
 
             int confirmacion = JOptionPane.showConfirmDialog(null,
-                    "¿Deseas salir del programa?", "confirmacion",
+                    "¿Deseas salir del Servidor?", "confirmacion",
                     JOptionPane.YES_NO_OPTION);
 
-            if (true) {
+            if (confirmacion == JOptionPane.YES_OPTION) {
 
                 JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
                 vistaPrincipal.dispose();

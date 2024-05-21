@@ -113,16 +113,17 @@ public class VistaPrincipal extends JFrame {
         botonAtencionCliente.setIcon(iconoBuzonAjustada);
         botonAtencionCliente.addActionListener(metodos);
 
-        botonCerrarServidor = new JButton("Cerrar Servidor");
-        botonCerrarServidor.setBounds(150, 450, 200, 30);
+        botonCerrarServidor = new JButton();
+        botonCerrarServidor.setBounds(380, 500, 60, 30);
         botonCerrarServidor.setBackground(new Color(111, 113, 121));
         botonCerrarServidor.setForeground(new Color(255, 255, 255));
         botonCerrarServidor.setToolTipText("Cerrar el servidor");
-        ImageIcon iconoCerrarServidor = new ImageIcon("Vista/Imagenes/cerrarPrograma.png");
+        ImageIcon iconoCerrarServidor = new ImageIcon("Vista/Imagenes/apagar.png");
         Image imagenCerrarServidor = iconoCerrarServidor.getImage();
-        Image imagenCerrarServidorAjustada = imagenCerrarServidor.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+        Image imagenCerrarServidorAjustada = imagenCerrarServidor.getScaledInstance(60, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoCerrarServidorAjustada = new ImageIcon(imagenCerrarServidorAjustada);
         botonCerrarServidor.setIcon(iconoCerrarServidorAjustada);
+        botonCerrarServidor.setBorderPainted(false);
         botonCerrarServidor.addActionListener(metodos);
 
         // Agregar elementos al JPanel

@@ -23,7 +23,7 @@ public class LogIn extends JFrame {
 
     public LogIn() {
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Inciar Sesión");
         setSize(300, 300);
         setContentPane(panelLogIn);

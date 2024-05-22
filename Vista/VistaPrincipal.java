@@ -16,7 +16,7 @@ import Controlador.Metodos;
 
 public class VistaPrincipal extends JFrame {
 
-    public JButton botonPedidos, botonEstado, botonBilletera, botonSolicitudesTrabajos, botonAtencionCliente,
+    public JButton botonPedidos, botonEstado, botonNoticias, botonSolicitudesTrabajos, botonAtencionCliente,
             botonCerrarServidor;
     public JLabel Logo_Label;
     public JPanel panelVistaPrincipal = new JPanel();
@@ -72,17 +72,17 @@ public class VistaPrincipal extends JFrame {
         botonEstado.setIcon(iconoEstadoAjustada);
         botonEstado.addActionListener(metodos);
 
-        botonBilletera = new JButton("Tarjetas Clientes");
-        botonBilletera.setBounds(150, 300, 200, 30);
-        botonBilletera.setBackground(new Color(111, 113, 121));
-        botonBilletera.setForeground(new Color(255, 255, 255));
-        botonBilletera.setToolTipText("Aprobar o denegar una tarjeta de un cliente");
-        ImageIcon iconoBilletera = new ImageIcon("Vista/Imagenes/billetera.png");
-        Image imagenBilletera = iconoBilletera.getImage();
-        Image imagenBilleteraAjustada = imagenBilletera.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
-        ImageIcon iconoBilleteraAjustada = new ImageIcon(imagenBilleteraAjustada);
-        botonBilletera.setIcon(iconoBilleteraAjustada);
-        botonBilletera.addActionListener(metodos);
+        botonNoticias = new JButton("Agregar Noticias");
+        botonNoticias.setBounds(150, 300, 200, 30);
+        botonNoticias.setBackground(new Color(111, 113, 121));
+        botonNoticias.setForeground(new Color(255, 255, 255));
+        botonNoticias.setToolTipText("Actualizar las noticias destacadas de Pizza Roma");
+        ImageIcon iconoNoticia = new ImageIcon("Vista/Imagenes/noticias.png");
+        Image imagenNoticia = iconoNoticia.getImage();
+        Image imagenNoticiaAjustada = imagenNoticia.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+        ImageIcon iconoNoticiaAjustada = new ImageIcon(imagenNoticiaAjustada);
+        botonNoticias.setIcon(iconoNoticiaAjustada);
+        botonNoticias.addActionListener(metodos);
 
         botonSolicitudesTrabajos = new JButton(" Ver Aplicantes");
         botonSolicitudesTrabajos.setBounds(150, 350, 200, 30);
@@ -126,7 +126,7 @@ public class VistaPrincipal extends JFrame {
         panelVistaPrincipal.add(Logo_Label);
         panelVistaPrincipal.add(botonPedidos);
         panelVistaPrincipal.add(botonEstado);
-        panelVistaPrincipal.add(botonBilletera);
+        panelVistaPrincipal.add(botonNoticias);
         panelVistaPrincipal.add(botonSolicitudesTrabajos);
         panelVistaPrincipal.add(botonAtencionCliente);
         panelVistaPrincipal.add(botonCerrarServidor);

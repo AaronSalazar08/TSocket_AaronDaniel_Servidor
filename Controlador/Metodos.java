@@ -5,7 +5,7 @@ import Vista.Estado;
 import Vista.LogIn;
 import Vista.Pedidos;
 import Vista.Solicitudes;
-import Vista.Tarjetas;
+import Vista.Noticias;
 import Vista.VistaPrincipal;
 
 import java.awt.event.ActionEvent;
@@ -21,7 +21,7 @@ public class Metodos implements ActionListener {
     private LogIn logIn;
     private BuzonClientes buzonClientes;
     private Estado estado;
-    private Tarjetas tarjetas;
+    private Noticias noticias;
     private Solicitudes solicitudes;
     private Pedidos pedidos;
 
@@ -31,7 +31,7 @@ public class Metodos implements ActionListener {
         this.logIn = null;
         this.buzonClientes = null;
         this.estado = null;
-        this.tarjetas = null;
+        this.noticias = null;
         this.solicitudes = null;
         this.pedidos = null;
     }
@@ -42,7 +42,7 @@ public class Metodos implements ActionListener {
         this.vistaPrincipal = null;
         this.buzonClientes = null;
         this.estado = null;
-        this.tarjetas = null;
+        this.noticias = null;
         this.solicitudes = null;
         this.pedidos = null;
     }
@@ -53,7 +53,7 @@ public class Metodos implements ActionListener {
         this.vistaPrincipal = null;
         this.logIn = null;
         this.estado = null;
-        this.tarjetas = null;
+        this.noticias = null;
         this.solicitudes = null;
         this.pedidos = null;
 
@@ -65,15 +65,15 @@ public class Metodos implements ActionListener {
         this.buzonClientes = null;
         this.vistaPrincipal = null;
         this.logIn = null;
-        this.tarjetas = null;
+        this.noticias = null;
         this.solicitudes = null;
         this.pedidos = null;
 
     }
 
-    public Metodos(Tarjetas tarjetas) {
+    public Metodos(Noticias tarjetas) {
 
-        this.tarjetas = tarjetas;
+        this.noticias = tarjetas;
         this.estado = null;
         this.buzonClientes = null;
         this.vistaPrincipal = null;
@@ -86,7 +86,7 @@ public class Metodos implements ActionListener {
     public Metodos (Solicitudes solicitudes){
 
         this.solicitudes = solicitudes;
-        this.tarjetas = null;
+        this.noticias = null;
         this.estado = null;
         this.buzonClientes = null;
         this.vistaPrincipal = null;
@@ -100,7 +100,7 @@ public class Metodos implements ActionListener {
 
         this.pedidos = pedidos;
         this.solicitudes = null;
-        this.tarjetas = null;
+        this.noticias = null;
         this.estado = null;
         this.buzonClientes = null;
         this.vistaPrincipal = null;
@@ -158,9 +158,9 @@ public class Metodos implements ActionListener {
 
         }
 
-        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonBilletera) {
+        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonNoticias) {
 
-            Tarjetas tarjeta = new Tarjetas();
+            Noticias tarjeta = new Noticias();
             tarjeta.setVisible(true);
             vistaPrincipal.dispose();
 
@@ -212,11 +212,11 @@ public class Metodos implements ActionListener {
 
         }
 
-        if (tarjetas != null && e.getSource() == tarjetas.botonVolver) {
+        if (noticias != null && e.getSource() == noticias.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
             vistaPrincipal.setVisible(true);
-            tarjetas.dispose();
+            noticias.dispose();
 
         }
 

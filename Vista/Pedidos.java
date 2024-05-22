@@ -13,6 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import Controlador.Metodos;
 
@@ -66,7 +73,7 @@ public class Pedidos extends JFrame {
         ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
-        //botonRefrescar.addActionListener(metodos);
+        botonRefrescar.addActionListener(metodos);
 
         botonEnviar = new JButton();
         botonEnviar.setBounds(350, 330, 50, 30);

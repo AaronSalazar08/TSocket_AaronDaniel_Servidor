@@ -2,7 +2,7 @@ package Modelo;
 
 public class Pedidos {
 
-    protected int numeroFactura;
+    protected String nombreCliente;
     
 
 }

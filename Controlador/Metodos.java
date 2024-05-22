@@ -10,8 +10,15 @@ import Vista.VistaPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -83,7 +90,7 @@ public class Metodos implements ActionListener {
 
     }
 
-    public Metodos (Solicitudes solicitudes){
+    public Metodos(Solicitudes solicitudes) {
 
         this.solicitudes = solicitudes;
         this.noticias = null;
@@ -93,10 +100,9 @@ public class Metodos implements ActionListener {
         this.logIn = null;
         this.pedidos = null;
 
-
     }
 
-    public Metodos (Pedidos pedidos){
+    public Metodos(Pedidos pedidos) {
 
         this.pedidos = pedidos;
         this.solicitudes = null;
@@ -105,7 +111,6 @@ public class Metodos implements ActionListener {
         this.buzonClientes = null;
         this.vistaPrincipal = null;
         this.logIn = null;
-
 
     }
 
@@ -233,6 +238,28 @@ public class Metodos implements ActionListener {
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
             vistaPrincipal.setVisible(true);
             pedidos.dispose();
+
+        }
+
+        if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
+
+            try {
+
+                ServerSocket servidor = new ServerSocket(5000);
+                Socket clienteNuevo = servidor.accept();
+                ObjectInputStream entrada = new ObjectInputStream(clienteNuevo.getInputStream());
+
+                String mensaje = (String) entrada.readObject();
+                pedidos.pedidoCliente.setText(mensaje);
+
+            } catch (IOException ex) {
+
+                Logger.getLogger(Pedidos.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (ClassNotFoundException ex) {
+
+                Logger.getLogger(Pedidos.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
 

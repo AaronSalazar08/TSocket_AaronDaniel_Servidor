@@ -93,12 +93,13 @@ public class BuzonClientes extends JFrame {
         mensajeCliente = new JTextArea();
         mensajeCliente.setEditable(false);
         scrollCliente.setBounds(20, 60, 300, 200);
+        scrollCliente.setBorder(BorderFactory.createCompoundBorder(scrollCliente.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
 
         respuestaServidor = new JTextArea(" ");
         respuestaServidor.setEditable(true);
 
         scrollServidor = new JScrollPane(respuestaServidor);
-
+        scrollServidor.setBorder(BorderFactory.createCompoundBorder(scrollServidor.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scrollServidor.setBounds(20, 350, 300, 100);
 
         panelBuzonClientes.add(botonVolver);

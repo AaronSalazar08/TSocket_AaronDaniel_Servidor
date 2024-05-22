@@ -81,6 +81,7 @@ public class Tarjetas extends JFrame {
         botonEnviar.setBorderPainted(false);
 
         scroll.setBounds(30, 80, 300, 150);
+        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText(
                 "Aquí apareceran los datos de las tarjetas de los clientes esperando respuesta de aprobación");
 

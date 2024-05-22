@@ -95,6 +95,7 @@ public class Solicitudes extends JFrame {
         grupoRadios.add(rechazado);
 
         scroll.setBounds(30, 80, 300, 150);
+        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText(
                 "Aquí apareceran los datos de los interesados en formar parte del equipo de trabajo de Pizza Roma");
 

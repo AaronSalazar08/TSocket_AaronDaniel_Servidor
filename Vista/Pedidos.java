@@ -108,6 +108,7 @@ public class Pedidos extends JFrame {
         pedidoCliente.setEditable(false);
 
         scroll.setBounds(30, 80, 300, 150);
+        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos solicitados por los clientes");
 
         panelPedidos.add(botonVolver);

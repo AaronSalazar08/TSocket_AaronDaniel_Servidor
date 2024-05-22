@@ -75,6 +75,7 @@ public class Estado extends JFrame {
         botonRefrescar.setBorderPainted(false);
 
         scroll.setBounds(30, 80, 300, 200);
+        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos realizados por los clientes");
 
         indicacionCliente = new JLabel("Pedido del Cliente: ");

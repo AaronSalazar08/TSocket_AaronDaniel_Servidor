@@ -10,9 +10,9 @@ import Vista.VistaPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -21,8 +21,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Metodos implements ActionListener {
+
+    ServerSocket servidor = null;
+    Socket socketCliente = null;
+    DataInputStream inputStream;
+    DataOutputStream outputStream;
+    int puerto = 5000;
+
 
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
@@ -243,24 +251,41 @@ public class Metodos implements ActionListener {
 
         if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
 
-            try {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        servidor = new ServerSocket(puerto);
+                        System.out.println("Servidor iniciado");
 
-                ServerSocket servidor = new ServerSocket(5000);
-                Socket clienteNuevo = servidor.accept();
-                ObjectInputStream entrada = new ObjectInputStream(clienteNuevo.getInputStream());
+                        while (true) {
+                            socketCliente = servidor.accept();
 
-                String mensaje = (String) entrada.readObject();
-                pedidos.pedidoCliente.setText(mensaje);
+                            inputStream = new DataInputStream(socketCliente.getInputStream());
+                            outputStream = new DataOutputStream(socketCliente.getOutputStream());
 
-            } catch (IOException ex) {
+                            String mensaje = inputStream.readUTF();
 
-                Logger.getLogger(Pedidos.class.getName()).log(Level.SEVERE, null, ex);
+                            
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pedidos.pedidoCliente.append(mensaje);
+                                    System.out.println(mensaje);
+                                }
+                            });
 
-            } catch (ClassNotFoundException ex) {
+                            outputStream.writeUTF("Hola Daniel");
 
-                Logger.getLogger(Pedidos.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                            socketCliente.close();
+                        }
 
+                    } catch (IOException ex) {
+                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }).start();
         }
 
     }

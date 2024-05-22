@@ -44,7 +44,6 @@ public class VistaPrincipal extends JFrame {
         Image imagenLogo = Logo.getImage();
         Image nuevaImagenLogo = imagenLogo.getScaledInstance(300, 180, Image.SCALE_SMOOTH);
         Icon nuevoIconoLogo = new ImageIcon(nuevaImagenLogo);
-
         Logo_Label = new JLabel();
         Logo_Label.setIcon(nuevoIconoLogo);
         Logo_Label.setBounds(100, 20, 250, 180);

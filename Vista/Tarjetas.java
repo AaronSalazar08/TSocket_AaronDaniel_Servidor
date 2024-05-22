@@ -19,18 +19,19 @@ public class Tarjetas extends JFrame {
     public JTextArea tarjetaCliente;
     public JScrollPane scroll = new JScrollPane(tarjetaCliente);
     public JButton botonVolver, botonRefrescar, botonEnviar;
+    public JLabel division, indicacionCliente, respuestaLabel;
     Font fuente = new Font(TIMES_NEW_ROMAN, Font.BOLD, 14);
 
     public Tarjetas() {
 
-        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        this.setTitle("Tarjetas de Clientes");
-        this.setLocationRelativeTo(null);
-        this.setSize(500, 600);
-        this.setContentPane(panelTarjetas);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setTitle("Tarjetas de Clientes");
+        setSize(500, 500);
+        setContentPane(panelTarjetas);
         panelTarjetas.setBackground(new Color(26, 28, 37));
         panelTarjetas.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
-        panelTarjetas.setLayout(null);
+        setLocationRelativeTo(null);
+        setLayout(null);
         Elementos();
 
     }
@@ -40,7 +41,7 @@ public class Tarjetas extends JFrame {
         Metodos metodos = new Metodos(this);
 
         botonVolver = new JButton();
-        botonVolver.setBounds(40, 500, 50, 30);
+        botonVolver.setBounds(40, 400, 50, 30);
         botonVolver.setBackground(new Color(111, 113, 121));
         botonVolver.setForeground(new Color(255, 255, 255));
         botonVolver.setFont(fuente);
@@ -52,6 +53,7 @@ public class Tarjetas extends JFrame {
         botonVolver.setIcon(iconoVolverAjustada);
         botonVolver.addActionListener(metodos);
         botonVolver.setBorderPainted(false);
+        botonVolver.setOpaque(false);
 
         botonRefrescar = new JButton();
         botonRefrescar.setBounds(350, 80, 40, 30);
@@ -65,7 +67,7 @@ public class Tarjetas extends JFrame {
         botonRefrescar.setBorderPainted(false);
 
         botonEnviar = new JButton();
-        botonEnviar.setBounds(350, 330, 50, 30);
+        botonEnviar.setBounds(280, 330, 50, 30);
         botonEnviar.setBackground(new Color(26, 28, 37));
         botonEnviar.setForeground(new Color(255, 255, 255));
         botonEnviar.setFont(fuente);
@@ -82,32 +84,49 @@ public class Tarjetas extends JFrame {
         scroll.setToolTipText(
                 "Aquí apareceran los datos de las tarjetas de los clientes esperando respuesta de aprobación");
 
-        aprobada = new JRadioButton();
-        aprobada.setText(APROBADA);
+        aprobada = new JRadioButton(APROBADA);
+        aprobada.setFont(fuente);
         aprobada.setForeground(new Color(255, 255, 255));
-        aprobada.setBounds(100, 400, 100, 30);
+        aprobada.setBounds(40, 320, 100, 30);
         aprobada.setBackground(new Color(26, 28, 37));
         aprobada.setToolTipText("Seleccionar si la tarjeta del cliente está aprobada para su uso en la plataforma");
 
-        denegada = new JRadioButton();
-        aprobada.setText(DENEGADA);
-        aprobada.setForeground(new Color(255, 255, 255));
-        denegada.setBounds(140, 400, 100, 30);
+        denegada = new JRadioButton(DENEGADA);
+        denegada.setFont(fuente);
+        denegada.setForeground(new Color(255, 255, 255));
+        denegada.setBounds(140, 320, 100, 30);
         denegada.setBackground(new Color(26, 28, 37));
         denegada.setToolTipText("Seleccionar si la tarjeta del cliente está denegada para su uso en la plataforma");
 
         ButtonGroup grupoRadios = new ButtonGroup();
-        aprobada = new JRadioButton();
-
-        denegada = new JRadioButton();
-
-
-
         grupoRadios.add(aprobada);
         grupoRadios.add(denegada);
-       
 
-       
+        division = new JLabel(
+                "-------------------------------------------------------------------------------------------------------------------------------------------------------");
+        division.setBounds(0, 250, 600, 20);
+        division.setForeground(new Color(255, 255, 255));
+        division.setFont(fuente);
+
+        indicacionCliente = new JLabel("Tarjeta del Cliente: ");
+        indicacionCliente.setBounds(30, 40, 200, 30);
+        indicacionCliente.setForeground(new Color(255, 255, 255));
+        indicacionCliente.setFont(fuente);
+
+        respuestaLabel = new JLabel("Tu respuesta:  ");
+        respuestaLabel.setBounds(30, 275, 200, 30);
+        respuestaLabel.setForeground(new Color(255, 255, 255));
+        respuestaLabel.setFont(fuente);
+
+        panelTarjetas.add(botonVolver);
+        panelTarjetas.add(botonRefrescar);
+        panelTarjetas.add(botonEnviar);
+        panelTarjetas.add(scroll);
+        panelTarjetas.add(aprobada);
+        panelTarjetas.add(denegada);
+        panelTarjetas.add(division);
+        panelTarjetas.add(indicacionCliente);
+        panelTarjetas.add(respuestaLabel);
 
     }
 

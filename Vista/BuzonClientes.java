@@ -15,7 +15,7 @@ public class BuzonClientes extends JFrame {
     public JScrollPane scrollCliente = new JScrollPane(mensajeCliente);
     public JScrollPane scrollServidor;
     public JButton botonRefrescar, botonEnviar, botonVolver;
-    public JLabel refrescarQueja, enviar, indicacionesCliente, division, respuestaLabel, enviarRespuesta;
+    public JLabel enviar, indicacionesCliente, division, respuestaLabel;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
 
     public BuzonClientes() {
@@ -51,12 +51,12 @@ public class BuzonClientes extends JFrame {
         botonVolver.setBorderPainted(false);
 
         botonRefrescar = new JButton();
-        botonRefrescar.setBounds(370, 110, 80, 40);
+        botonRefrescar.setBounds(350, 80, 50, 30);
         botonRefrescar.setBackground(new Color(111, 113, 121));
         botonRefrescar.setToolTipText("Refrescar los mensajes enviados por los clientes");
         ImageIcon iconoRefrescar = new ImageIcon("Vista/Imagenes/refrescar.png");
         Image imagenRefrescar = iconoRefrescar.getImage();
-        Image imagenRefrescarAjustada = imagenRefrescar.getScaledInstance(80, 40, Image.SCALE_SMOOTH);
+        Image imagenRefrescarAjustada = imagenRefrescar.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
@@ -69,23 +69,18 @@ public class BuzonClientes extends JFrame {
         botonEnviar.setToolTipText("Enviar respuesta al cliente sobre su mensaje");
         ImageIcon iconoEnviar = new ImageIcon("Vista/Imagenes/enviar.png");
         Image imagenEnviar = iconoEnviar.getImage();
-        Image imagenEnviarAjustada = imagenEnviar.getScaledInstance(60, 30, Image.SCALE_SMOOTH);
+        Image imagenEnviarAjustada = imagenEnviar.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoEnviarAjustada = new ImageIcon(imagenEnviarAjustada);
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);
-
-
-        refrescarQueja = new JLabel("Refrescar Mensajes");
-        refrescarQueja.setBounds(360, 160, 200, 30);
-        refrescarQueja.setForeground(new Color(255, 255, 255));
-        refrescarQueja.setFont(fuente);
 
         indicacionesCliente = new JLabel("Mensajes de Clientes: ");
         indicacionesCliente.setBounds(30, 20, 200, 30);
         indicacionesCliente.setForeground(new Color(255, 255, 255));
         indicacionesCliente.setFont(fuente);
 
-        division = new JLabel("-------------------------------------------------------------------------------------------------------------------------------------------------------");
+        division = new JLabel(
+                "-------------------------------------------------------------------------------------------------------------------------------------------------------");
         division.setBounds(0, 290, 600, 20);
         division.setForeground(new Color(255, 255, 255));
         division.setFont(fuente);
@@ -94,12 +89,6 @@ public class BuzonClientes extends JFrame {
         respuestaLabel.setBounds(30, 310, 200, 30);
         respuestaLabel.setForeground(new Color(255, 255, 255));
         respuestaLabel.setFont(fuente);
-
-        enviarRespuesta = new JLabel("Enviar");
-        enviarRespuesta.setBounds(360, 410, 150, 30);
-        enviarRespuesta.setForeground(new Color(255, 255, 255));
-        enviarRespuesta.setFont(fuente);
-
 
         mensajeCliente = new JTextArea();
         mensajeCliente.setEditable(false);
@@ -111,16 +100,14 @@ public class BuzonClientes extends JFrame {
         scrollServidor = new JScrollPane(respuestaServidor);
 
         scrollServidor.setBounds(20, 350, 300, 100);
-        
+
         panelBuzonClientes.add(botonVolver);
         panelBuzonClientes.add(scrollCliente);
         panelBuzonClientes.add(scrollServidor);
         panelBuzonClientes.add(botonRefrescar);
-        panelBuzonClientes.add(refrescarQueja);
         panelBuzonClientes.add(indicacionesCliente);
         panelBuzonClientes.add(division);
         panelBuzonClientes.add(respuestaLabel);
-        panelBuzonClientes.add(enviarRespuesta);
         panelBuzonClientes.add(botonEnviar);
 
     }

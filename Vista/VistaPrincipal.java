@@ -3,15 +3,15 @@ package Vista;
 import java.awt.Color;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import Controlador.Metodos;
 
 public class VistaPrincipal extends JFrame {
@@ -21,8 +21,6 @@ public class VistaPrincipal extends JFrame {
     public JLabel Logo_Label;
     public JPanel panelVistaPrincipal = new JPanel();
     public ImageIcon Logo;
-    
-    
 
     public VistaPrincipal() {
 
@@ -31,6 +29,7 @@ public class VistaPrincipal extends JFrame {
         setSize(500, 600);
         setContentPane(panelVistaPrincipal);
         panelVistaPrincipal.setBackground(new Color(26, 28, 37));
+        panelVistaPrincipal.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
         Elementos();
@@ -60,10 +59,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonPedidos.setIcon(iconoVolverAjustada);
-
-        // botonPedidos.setOpaque(false);
-        // botonPedidos.setContentAreaFilled(false);
-        // botonPedidos.setBorderPainted(false);
+        botonPedidos.addActionListener(metodos);
 
         botonEstado = new JButton("Estado Pedidos");
         botonEstado.setBounds(150, 250, 200, 30);
@@ -75,6 +71,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenEstadoAjustada = imagenEstado.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoEstadoAjustada = new ImageIcon(imagenEstadoAjustada);
         botonEstado.setIcon(iconoEstadoAjustada);
+        botonEstado.addActionListener(metodos);
 
         botonBilletera = new JButton("Tarjetas Clientes");
         botonBilletera.setBounds(150, 300, 200, 30);
@@ -86,6 +83,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenBilleteraAjustada = imagenBilletera.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoBilleteraAjustada = new ImageIcon(imagenBilleteraAjustada);
         botonBilletera.setIcon(iconoBilleteraAjustada);
+        botonBilletera.addActionListener(metodos);
 
         botonSolicitudesTrabajos = new JButton(" Ver Aplicantes");
         botonSolicitudesTrabajos.setBounds(150, 350, 200, 30);
@@ -97,30 +95,32 @@ public class VistaPrincipal extends JFrame {
         Image imagenAplicantesAjustada = imagenAplicantes.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoAplicantesAjustada = new ImageIcon(imagenAplicantesAjustada);
         botonSolicitudesTrabajos.setIcon(iconoAplicantesAjustada);
+        botonSolicitudesTrabajos.addActionListener(metodos);
 
-
-        botonAtencionCliente = new JButton("Buzón de Clientes");
-        botonAtencionCliente.setBounds(150, 400, 200, 30);
+        botonAtencionCliente = new JButton();
+        botonAtencionCliente.setBounds(300, 500, 60, 35);
         botonAtencionCliente.setBackground(new Color(111, 113, 121));
         botonAtencionCliente.setForeground(new Color(255, 255, 255));
         botonAtencionCliente.setToolTipText("Atender a los clientes con sus inquietudes");
         ImageIcon iconoBuzon = new ImageIcon("Vista/Imagenes/buzonClientes.png");
         Image imagenBuzon = iconoBuzon.getImage();
-        Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+        Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(60, 35, Image.SCALE_SMOOTH);
         ImageIcon iconoBuzonAjustada = new ImageIcon(imagenBuzonAjustada);
         botonAtencionCliente.setIcon(iconoBuzonAjustada);
+        botonAtencionCliente.addActionListener(metodos);
+        botonAtencionCliente.setBorderPainted(false);
 
-
-        botonCerrarServidor = new JButton("Cerrar Servidor");
-        botonCerrarServidor.setBounds(150, 450, 200, 30);
+        botonCerrarServidor = new JButton();
+        botonCerrarServidor.setBounds(380, 500, 60, 30);
         botonCerrarServidor.setBackground(new Color(111, 113, 121));
         botonCerrarServidor.setForeground(new Color(255, 255, 255));
         botonCerrarServidor.setToolTipText("Cerrar el servidor");
-        ImageIcon iconoCerrarServidor = new ImageIcon("Vista/Imagenes/cerrarPrograma.png");
+        ImageIcon iconoCerrarServidor = new ImageIcon("Vista/Imagenes/apagar.png");
         Image imagenCerrarServidor = iconoCerrarServidor.getImage();
-        Image imagenCerrarServidorAjustada = imagenCerrarServidor.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+        Image imagenCerrarServidorAjustada = imagenCerrarServidor.getScaledInstance(60, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoCerrarServidorAjustada = new ImageIcon(imagenCerrarServidorAjustada);
         botonCerrarServidor.setIcon(iconoCerrarServidorAjustada);
+        botonCerrarServidor.setBorderPainted(false);
         botonCerrarServidor.addActionListener(metodos);
 
         // Agregar elementos al JPanel

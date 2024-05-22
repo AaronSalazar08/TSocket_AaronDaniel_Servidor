@@ -79,12 +79,28 @@ public class Tarjetas extends JFrame{
         scroll.setBounds(30, 80, 300, 150);
         scroll.setToolTipText("Aquí apareceran los datos de las tarjetas de los clientes esperando respuesta de aprobación");
 
-        
+        aprobada = new JRadioButton("Aprobada");
+        aprobada.setForeground(new Color(255, 255, 255));
+        aprobada.setBounds(80, 150, 100, 30);
+        aprobada.setBackground(new Color(26, 28, 37));
+        aprobada.setToolTipText("Seleccionar si la tarjeta del cliente está aprobada para su uso en la plataforma");
+
+        denegada = new JRadioButton("Denegada");
+        denegada.setForeground(new Color(255, 255, 255));
+        denegada.setBounds(140, 150, 100, 30);
+        denegada.setBackground(new Color(26, 28, 37));
+        denegada.setToolTipText("Seleccionar si la tarjeta del cliente está denegada para su uso en la plataforma");
+
+        ButtonGroup grupoRadios = new ButtonGroup();
+        grupoRadios.add(aprobada);
+        grupoRadios.add(denegada);
 
         panelTarjetas.add(botonVolver);
         panelTarjetas.add(botonRefrescar);
         panelTarjetas.add(botonEnviar);
         panelTarjetas.add(scroll);
+        panelTarjetas.add(aprobada);
+        panelTarjetas.add(denegada);
 
 
     }

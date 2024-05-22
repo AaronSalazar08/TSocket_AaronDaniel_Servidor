@@ -16,8 +16,7 @@ public class Solicitudes extends JFrame {
     public JButton botonVolver, botonRefrescar, botonEnviar;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
 
-
-    public Solicitudes (){
+    public Solicitudes() {
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Solicitudes de aplicantes");
@@ -31,7 +30,7 @@ public class Solicitudes extends JFrame {
 
     }
 
-    public void Elementos(){
+    public void Elementos() {
 
         Metodos metodos = new Metodos(this);
 
@@ -49,9 +48,25 @@ public class Solicitudes extends JFrame {
         botonVolver.addActionListener(metodos);
         botonVolver.setBorderPainted(false);
 
+        contradato = new JRadioButton("Aprobada");
+        contradato.setForeground(new Color(255, 255, 255));
+        contradato.setBounds(80, 350, 100, 30);
+        contradato.setBackground(new Color(26, 28, 37));
+        contradato.setToolTipText("Seleccionar si la tarjeta del cliente está aprobada para su uso en la plataforma");
+
+        rechazado = new JRadioButton("Denegada");
+        rechazado.setForeground(new Color(255, 255, 255));
+        rechazado.setBounds(140, 350, 100, 30);
+        rechazado.setBackground(new Color(26, 28, 37));
+        rechazado.setToolTipText("Seleccionar si la tarjeta del cliente está denegada para su uso en la plataforma");
+
+        ButtonGroup grupoRadios = new ButtonGroup();
+        grupoRadios.add(contradato);
+        grupoRadios.add(rechazado);
+
         panelSolicitudes.add(botonVolver);
-
-
+        panelSolicitudes.add(contradato);
+        panelSolicitudes.add(rechazado);
 
     }
 

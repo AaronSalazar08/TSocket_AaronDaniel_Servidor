@@ -8,33 +8,34 @@ import javax.swing.*;
 
 import Controlador.Metodos;
 
-public class Tarjetas extends JFrame{
+public class Tarjetas extends JFrame {
 
+    private static final String TIMES_NEW_ROMAN = "Times New Roman";
+    private static final String APROBADA = "Aprobada";
+    private static final String DENEGADA = "Denegada";
     public JPanel panelTarjetas = new JPanel();
     public JTextArea datosTarjeta;
     public JRadioButton aprobada, denegada;
     public JTextArea tarjetaCliente;
     public JScrollPane scroll = new JScrollPane(tarjetaCliente);
     public JButton botonVolver, botonRefrescar, botonEnviar;
-    Font fuente = new Font("Times New Roman", Font.BOLD, 14);
+    Font fuente = new Font(TIMES_NEW_ROMAN, Font.BOLD, 14);
 
+    public Tarjetas() {
 
-    public Tarjetas (){
-
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setTitle("Tarjetas de Clientes");
-        setSize(500, 600);
-        setContentPane(panelTarjetas);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.setTitle("Tarjetas de Clientes");
+        this.setLocationRelativeTo(null);
+        this.setSize(500, 600);
+        this.setContentPane(panelTarjetas);
         panelTarjetas.setBackground(new Color(26, 28, 37));
         panelTarjetas.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
-        setLocationRelativeTo(null);
-        setLayout(null);
+        panelTarjetas.setLayout(null);
         Elementos();
-
 
     }
 
-    public void Elementos (){
+    public void Elementos() {
 
         Metodos metodos = new Metodos(this);
 
@@ -68,7 +69,8 @@ public class Tarjetas extends JFrame{
         botonEnviar.setBackground(new Color(26, 28, 37));
         botonEnviar.setForeground(new Color(255, 255, 255));
         botonEnviar.setFont(fuente);
-        botonEnviar.setToolTipText("Enviar respuesta al cliente sobre su solicitud de aprobación para utilizar la tarjeta");
+        botonEnviar.setToolTipText(
+                "Enviar respuesta al cliente sobre su solicitud de aprobación para utilizar la tarjeta");
         ImageIcon iconoEnviar = new ImageIcon("Vista/Imagenes/enviar.png");
         Image imagenEnviar = iconoEnviar.getImage();
         Image imagenEnviarAjustada = imagenEnviar.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
@@ -77,31 +79,35 @@ public class Tarjetas extends JFrame{
         botonEnviar.setBorderPainted(false);
 
         scroll.setBounds(30, 80, 300, 150);
-        scroll.setToolTipText("Aquí apareceran los datos de las tarjetas de los clientes esperando respuesta de aprobación");
+        scroll.setToolTipText(
+                "Aquí apareceran los datos de las tarjetas de los clientes esperando respuesta de aprobación");
 
-        aprobada = new JRadioButton("Aprobada");
+        aprobada = new JRadioButton();
+        aprobada.setText(APROBADA);
         aprobada.setForeground(new Color(255, 255, 255));
-        aprobada.setBounds(80, 150, 100, 30);
+        aprobada.setBounds(100, 400, 100, 30);
         aprobada.setBackground(new Color(26, 28, 37));
         aprobada.setToolTipText("Seleccionar si la tarjeta del cliente está aprobada para su uso en la plataforma");
 
-        denegada = new JRadioButton("Denegada");
-        denegada.setForeground(new Color(255, 255, 255));
-        denegada.setBounds(140, 150, 100, 30);
+        denegada = new JRadioButton();
+        aprobada.setText(DENEGADA);
+        aprobada.setForeground(new Color(255, 255, 255));
+        denegada.setBounds(140, 400, 100, 30);
         denegada.setBackground(new Color(26, 28, 37));
         denegada.setToolTipText("Seleccionar si la tarjeta del cliente está denegada para su uso en la plataforma");
 
         ButtonGroup grupoRadios = new ButtonGroup();
+        aprobada = new JRadioButton();
+
+        denegada = new JRadioButton();
+
+
+
         grupoRadios.add(aprobada);
         grupoRadios.add(denegada);
+       
 
-        panelTarjetas.add(botonVolver);
-        panelTarjetas.add(botonRefrescar);
-        panelTarjetas.add(botonEnviar);
-        panelTarjetas.add(scroll);
-        panelTarjetas.add(aprobada);
-        panelTarjetas.add(denegada);
-
+       
 
     }
 

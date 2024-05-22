@@ -11,7 +11,7 @@ import Controlador.Metodos;
 public class Estado extends JFrame {
 
     public JPanel panelEstado = new JPanel();
-    public JLabel pedidoCliente_label;
+    public JLabel pedidoCliente_label, indicacionCliente;
     public JTextArea pedidoCliente;
     public JScrollPane scroll = new JScrollPane(pedidoCliente);
     public JButton botonRefrescar, botonEnviarEstado, botonVolver;
@@ -21,7 +21,7 @@ public class Estado extends JFrame {
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Estado de Pedidos");
-        setSize(500, 600);
+        setSize(500, 450);
         setContentPane(panelEstado);
         panelEstado.setBackground(new Color(26, 28, 37));
 
@@ -37,7 +37,7 @@ public class Estado extends JFrame {
         Metodos metodos = new Metodos(this);
 
         botonVolver = new JButton("");
-        botonVolver.setBounds(40, 500, 50, 30);
+        botonVolver.setBounds(40, 350, 50, 30);
         botonVolver.setBackground(new Color(111, 113, 121));
         botonVolver.setForeground(new Color(255, 255, 255));
         botonVolver.setFont(fuente);
@@ -51,7 +51,7 @@ public class Estado extends JFrame {
         botonVolver.setBorderPainted(false);
 
         botonEnviarEstado = new JButton();
-        botonEnviarEstado.setBounds(350, 330, 50, 30);
+        botonEnviarEstado.setBounds(350, 290, 50, 30);
         botonEnviarEstado.setBackground(new Color(26, 28, 37));
         botonEnviarEstado.setForeground(new Color(255, 255, 255));
         botonEnviarEstado.setFont(fuente);
@@ -74,13 +74,19 @@ public class Estado extends JFrame {
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
 
-        scroll.setBounds(30, 80, 300, 150);
+        scroll.setBounds(30, 80, 300, 200);
         scroll.setToolTipText("Aquí apareceran los pedidos realizados por los clientes");
+
+        indicacionCliente = new JLabel("Pedido del Cliente: ");
+        indicacionCliente.setBounds(30, 40, 200, 30);
+        indicacionCliente.setForeground(new Color(255, 255, 255));
+        indicacionCliente.setFont(fuente);
 
         panelEstado.add(botonVolver);
         panelEstado.add(botonEnviarEstado);
         panelEstado.add(botonRefrescar);
         panelEstado.add(scroll);
+        panelEstado.add(indicacionCliente);
 
     }
 }

@@ -89,7 +89,7 @@ public class Pedidos extends JFrame {
         division.setFont(fuente);
 
       
-        indicacionCliente = new JLabel("Pedido del Cliente: ");
+        indicacionCliente = new JLabel("Factura del Cliente: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
         indicacionCliente.setFont(fuente);

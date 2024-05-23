@@ -17,10 +17,12 @@ import Controlador.Metodos;
 public class VistaPrincipal extends JFrame {
 
     public JButton botonPedidos, botonEstado, botonNoticias, botonSolicitudesTrabajos, botonAtencionCliente,
-            botonCerrarServidor;
-    public JLabel Logo_Label;
+            botonCerrarServidor, botonUsuario;
+    public JLabel Logo_Label, usuarioLabel;
     public JPanel panelVistaPrincipal = new JPanel();
     public ImageIcon Logo;
+    public ImageIcon imagen;
+    public Icon icono;
 
     public VistaPrincipal() {
 
@@ -122,6 +124,19 @@ public class VistaPrincipal extends JFrame {
         botonCerrarServidor.setBorderPainted(false);
         botonCerrarServidor.addActionListener(metodos);
 
+        botonUsuario = new JButton();
+        botonUsuario.setBounds(15, 10, 30, 30);
+        botonUsuario.setBorderPainted(false);
+        botonUsuario.setOpaque(false);
+        botonUsuario.setBackground(new Color(26, 28, 37));
+        botonUsuario.setToolTipText("Cerrar Sesión");
+        botonUsuario.addActionListener(metodos);
+        this.PintarB(this.botonUsuario, "Vista/Imagenes/usuario.png");
+
+        usuarioLabel = new JLabel();
+        usuarioLabel.setBounds(60, 15, 250, 20);
+        usuarioLabel.setForeground(new Color(255, 255, 255));
+
         // Agregar elementos al JPanel
         panelVistaPrincipal.add(Logo_Label);
         panelVistaPrincipal.add(botonPedidos);
@@ -130,7 +145,21 @@ public class VistaPrincipal extends JFrame {
         panelVistaPrincipal.add(botonSolicitudesTrabajos);
         panelVistaPrincipal.add(botonAtencionCliente);
         panelVistaPrincipal.add(botonCerrarServidor);
+        panelVistaPrincipal.add(botonUsuario);
+        panelVistaPrincipal.add(usuarioLabel);
 
     }
+
+    private void PintarB(JButton lbl, String ruta) { // Este metodo se utiliza para ponerle imagenes de fondo a los
+        // Labels
+        this.imagen = new ImageIcon(ruta);
+        this.icono = new ImageIcon(
+                this.imagen.getImage().getScaledInstance(
+                        lbl.getWidth(),
+                        lbl.getHeight(),
+                        Image.SCALE_DEFAULT));
+        lbl.setIcon(this.icono);
+        this.repaint();
+    }// Fin del metodo
 
 }

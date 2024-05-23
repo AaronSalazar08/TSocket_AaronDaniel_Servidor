@@ -28,16 +28,15 @@ public class Pedidos extends JFrame {
     public JPanel panelPedidos = new JPanel();
     public JTextArea pedidoCliente;
     public JScrollPane scroll = new JScrollPane(pedidoCliente);
-    public JTextField respuestaPedido;
     public JButton botonRefrescar, botonEnviar, botonVolver;
-    public JLabel indicacionCliente, respuestaLabel, division;
+    public JLabel indicacionCliente;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
 
     public Pedidos() {
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Pedidos");
-        setSize(500, 500);
+        setSize(370, 500);
         setContentPane(panelPedidos);
         panelPedidos.setBackground(new Color(26, 28, 37));
         panelPedidos.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
@@ -64,7 +63,7 @@ public class Pedidos extends JFrame {
         botonVolver.setBorderPainted(false);
 
         botonRefrescar = new JButton();
-        botonRefrescar.setBounds(350, 80, 40, 30);
+        botonRefrescar.setBounds(290, 40, 40, 30);
         botonRefrescar.setBackground(new Color(111, 113, 121));
         botonRefrescar.setToolTipText("Refrescar los pedidos enviados por los clientes");
         ImageIcon iconoRefrescar = new ImageIcon("Vista/Imagenes/refrescar.png");
@@ -76,7 +75,7 @@ public class Pedidos extends JFrame {
         botonRefrescar.addActionListener(metodos);
 
         botonEnviar = new JButton();
-        botonEnviar.setBounds(350, 330, 50, 30);
+        botonEnviar.setBounds(290, 400, 50, 30);
         botonEnviar.setBackground(new Color(26, 28, 37));
         botonEnviar.setForeground(new Color(255, 255, 255));
         botonEnviar.setFont(fuente);
@@ -88,33 +87,14 @@ public class Pedidos extends JFrame {
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);
 
-
-
-        division = new JLabel("-------------------------------------------------------------------------------------------------------------------------------------------------------");
-        division.setBounds(0, 250, 600, 20);
-        division.setForeground(new Color(255, 255, 255));
-        division.setFont(fuente);
-
-      
         indicacionCliente = new JLabel("Factura del Cliente: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
         indicacionCliente.setFont(fuente);
-
-        respuestaLabel = new JLabel("Tu respuesta:  ");
-        respuestaLabel.setBounds(30, 290, 200, 30);
-        respuestaLabel.setForeground(new Color(255, 255, 255));
-        respuestaLabel.setFont(fuente);
-
-        respuestaPedido = new JTextField();
-        respuestaPedido.setBounds(30, 330, 300, 30);
-        respuestaPedido.setFont(fuente);
-        respuestaPedido.setToolTipText("Informa al cliente si su pedido está disponible o algún otro detalle que tenga que saber");
-
         pedidoCliente = new JTextArea();
         pedidoCliente.setEditable(false);
 
-        scroll.setBounds(30, 80, 300, 150);
+        scroll.setBounds(30, 80, 300, 280);
         scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos solicitados por los clientes");
 
@@ -123,9 +103,6 @@ public class Pedidos extends JFrame {
         panelPedidos.add(botonEnviar);
         panelPedidos.add(scroll);
         panelPedidos.add(indicacionCliente);
-        panelPedidos.add(respuestaPedido);
-        panelPedidos.add(respuestaLabel);
-        panelPedidos.add(division);
 
     }
 }

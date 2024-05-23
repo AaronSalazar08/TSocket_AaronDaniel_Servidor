@@ -17,7 +17,7 @@ public class LogIn extends JFrame {
 
     public JPanel panelLogIn = new JPanel();
     public JLabel usuario, contrasena;
-    public JTextField Usuario_txt;
+    public static JTextField Usuario_txt;
     public JPasswordField contrasena_txt;
     public JButton botonContinuar;
     Font fuente = new Font("Times New Roman", Font.BOLD, 16);

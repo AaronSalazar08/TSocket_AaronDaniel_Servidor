@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import Controlador.Metodos;
 
@@ -12,10 +13,21 @@ public class Estado extends JFrame {
 
     public JPanel panelEstado = new JPanel();
     public JLabel pedidoCliente_label, indicacionCliente;
-    public JTextArea pedidoCliente;
-    public JScrollPane scroll = new JScrollPane(pedidoCliente);
-    public JButton botonRefrescar, botonEnviarEstado, botonVolver;
+
+    public JButton botonEnviarEstado, botonVolver;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
+
+    private String[] cabecera = { "Factura", "Promoción", "Cantidad", "Precio" };// Titulos a llevar el JTable
+
+    DefaultTableModel modeloTabla = new DefaultTableModel(cabecera, 1000000) {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    JTable tablaPedidos = new JTable(modeloTabla);
+    JScrollPane scroll = new JScrollPane(tablaPedidos);
 
     public Estado() {
 
@@ -51,7 +63,7 @@ public class Estado extends JFrame {
         botonVolver.setBorderPainted(false);
 
         botonEnviarEstado = new JButton();
-        botonEnviarEstado.setBounds(350, 290, 50, 30);
+        botonEnviarEstado.setBounds(380, 350, 50, 30);
         botonEnviarEstado.setBackground(new Color(26, 28, 37));
         botonEnviarEstado.setForeground(new Color(255, 255, 255));
         botonEnviarEstado.setFont(fuente);
@@ -63,29 +75,18 @@ public class Estado extends JFrame {
         botonEnviarEstado.setIcon(iconoEnviarAjustada);
         botonEnviarEstado.setBorderPainted(false);
 
-        botonRefrescar = new JButton();
-        botonRefrescar.setBounds(350, 80, 40, 30);
-        botonRefrescar.setBackground(new Color(111, 113, 121));
-        botonRefrescar.setToolTipText("Refrescar los pedidos enviados por los clientes");
-        ImageIcon iconoRefrescar = new ImageIcon("Vista/Imagenes/refrescar.png");
-        Image imagenRefrescar = iconoRefrescar.getImage();
-        Image imagenRefrescarAjustada = imagenRefrescar.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
-        ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
-        botonRefrescar.setIcon(iconoRefrescarAjustada);
-        botonRefrescar.setBorderPainted(false);
-
-        scroll.setBounds(30, 80, 300, 200);
-        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
+        scroll.setBounds(30, 80, 400, 200);
+        scroll.setBorder(
+                BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos realizados por los clientes");
 
-        indicacionCliente = new JLabel("Pedido del Cliente: ");
+        indicacionCliente = new JLabel("Pedidos Clientes: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
         indicacionCliente.setFont(fuente);
 
         panelEstado.add(botonVolver);
         panelEstado.add(botonEnviarEstado);
-        panelEstado.add(botonRefrescar);
         panelEstado.add(scroll);
         panelEstado.add(indicacionCliente);
 

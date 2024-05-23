@@ -31,7 +31,6 @@ public class Metodos implements ActionListener {
     DataOutputStream outputStream;
     int puerto = 5000;
 
-
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
     private BuzonClientes buzonClientes;
@@ -144,7 +143,9 @@ public class Metodos implements ActionListener {
                     credencialesValidas.get(entradaUsuario).equals(contrasenaString)) {
 
                 JOptionPane.showMessageDialog(null, "Bienvenido " + entradaUsuario);
+                
                 VistaPrincipal vistaPrincipal = new VistaPrincipal();
+                vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
                 vistaPrincipal.setVisible(true);
                 logIn.dispose();
 
@@ -212,6 +213,7 @@ public class Metodos implements ActionListener {
         if (buzonClientes != null && e.getSource() == buzonClientes.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
             vistaPrincipal.setVisible(true);
             buzonClientes.dispose();
 
@@ -220,6 +222,7 @@ public class Metodos implements ActionListener {
         if (estado != null && e.getSource() == estado.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText().trim());
             vistaPrincipal.setVisible(true);
             estado.dispose();
 
@@ -228,6 +231,7 @@ public class Metodos implements ActionListener {
         if (noticias != null && e.getSource() == noticias.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
             vistaPrincipal.setVisible(true);
             noticias.dispose();
 
@@ -236,20 +240,24 @@ public class Metodos implements ActionListener {
         if (solicitudes != null && e.getSource() == solicitudes.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
             vistaPrincipal.setVisible(true);
             solicitudes.dispose();
 
         }
 
+
         if (pedidos != null && e.getSource() == pedidos.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
+            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
             vistaPrincipal.setVisible(true);
             pedidos.dispose();
 
         }
 
-        if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
+        
+         if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
 
             new Thread(new Runnable() {
                 @Override
@@ -266,7 +274,6 @@ public class Metodos implements ActionListener {
 
                             String mensaje = inputStream.readUTF();
 
-                            
                             SwingUtilities.invokeLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -286,6 +293,24 @@ public class Metodos implements ActionListener {
 
                 }
             }).start();
+        }
+         
+        
+
+        if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonUsuario) {
+
+            int confirmacion = JOptionPane.showConfirmDialog(null,
+                    "¿Deseas cerrar sesión?", "confirmacion",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+
+                JOptionPane.showMessageDialog(null, "Cerrando Sesión...");
+                LogIn login = new LogIn();
+                login.setVisible(true);
+                vistaPrincipal.dispose();
+            }
+
         }
 
     }

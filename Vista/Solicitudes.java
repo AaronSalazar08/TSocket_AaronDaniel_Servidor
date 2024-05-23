@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import Controlador.Metodos;
 
@@ -15,17 +16,30 @@ public class Solicitudes extends JFrame {
     public JPanel panelSolicitudes = new JPanel();
     public JTextArea informacionAplicante;
     public JRadioButton contradato, rechazado;
-    public JButton botonVolver, botonRefrescar, botonEnviar;
+    public JButton botonVolver,botonEnviar;
     public JTextArea tarjetaCliente;
-    public JScrollPane scroll = new JScrollPane(tarjetaCliente);
-    public JLabel division, respuestaLabel, indicacionCliente;
+   
+    public JLabel respuestaLabel, indicacionCliente;
+
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
+
+     private String[] cabecera = { "Cédula", "Nombre", "Correo", "Teléfono", "Postula", "Provincia", };//Titulos a llevar el JTable
+
+    DefaultTableModel modeloTabla = new DefaultTableModel(cabecera, 1000000) {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    JTable tablaAplicantes = new JTable(modeloTabla);
+    JScrollPane scroll = new JScrollPane(tablaAplicantes);
 
     public Solicitudes() {
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Solicitudes de aplicantes");
-        setSize(500, 500);
+        setSize(700, 500);
         setContentPane(panelSolicitudes);
         panelSolicitudes.setBackground(new Color(26, 28, 37));
         panelSolicitudes.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
@@ -53,19 +67,10 @@ public class Solicitudes extends JFrame {
         botonVolver.addActionListener(metodos);
         botonVolver.setBorderPainted(false);
 
-        botonRefrescar = new JButton();
-        botonRefrescar.setBounds(350, 80, 40, 30);
-        botonRefrescar.setBackground(new Color(111, 113, 121));
-        botonRefrescar.setToolTipText("Refrescar los datos de los interesados en trabajar en Pizza Roma");
-        ImageIcon iconoRefrescar = new ImageIcon("Vista/Imagenes/refrescar.png");
-        Image imagenRefrescar = iconoRefrescar.getImage();
-        Image imagenRefrescarAjustada = imagenRefrescar.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
-        ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
-        botonRefrescar.setIcon(iconoRefrescarAjustada);
-        botonRefrescar.setBorderPainted(false);
+        
 
         botonEnviar = new JButton();
-        botonEnviar.setBounds(280, 330, 50, 30);
+        botonEnviar.setBounds(600, 400, 50, 30);
         botonEnviar.setBackground(new Color(26, 28, 37));
         botonEnviar.setForeground(new Color(255, 255, 255));
         botonEnviar.setFont(fuente);
@@ -80,13 +85,13 @@ public class Solicitudes extends JFrame {
 
         contradato = new JRadioButton(CONTRATADO);
         contradato.setForeground(new Color(255, 255, 255));
-        contradato.setBounds(40, 330, 100, 30);
+        contradato.setBounds(400, 400, 100, 30);
         contradato.setBackground(new Color(26, 28, 37));
         contradato.setToolTipText("Seleccionar si la tarjeta del cliente está aprobada para su uso en la plataforma");
 
         rechazado = new JRadioButton(RECHAZADO);
         rechazado.setForeground(new Color(255, 255, 255));
-        rechazado.setBounds(140, 330, 100, 30);
+        rechazado.setBounds(500, 400, 100, 30);
         rechazado.setBackground(new Color(26, 28, 37));
         rechazado.setToolTipText("Seleccionar si la tarjeta del cliente está denegada para su uso en la plataforma");
 
@@ -94,16 +99,12 @@ public class Solicitudes extends JFrame {
         grupoRadios.add(contradato);
         grupoRadios.add(rechazado);
 
-        scroll.setBounds(30, 80, 300, 150);
+        scroll.setBounds(30, 80, 625, 300);
         scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText(
                 "Aquí apareceran los datos de los interesados en formar parte del equipo de trabajo de Pizza Roma");
 
-        division = new JLabel(
-                "-------------------------------------------------------------------------------------------------------------------------------------------------------");
-        division.setBounds(0, 250, 600, 20);
-        division.setForeground(new Color(255, 255, 255));
-        division.setFont(fuente);
+       
 
         indicacionCliente = new JLabel("Aplicantes: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
@@ -116,12 +117,10 @@ public class Solicitudes extends JFrame {
         respuestaLabel.setFont(fuente);
 
         panelSolicitudes.add(botonVolver);
-        panelSolicitudes.add(botonRefrescar);
         panelSolicitudes.add(botonEnviar);
         panelSolicitudes.add(contradato);
         panelSolicitudes.add(rechazado);
         panelSolicitudes.add(scroll);
-        panelSolicitudes.add(division);
         panelSolicitudes.add(indicacionCliente);
         panelSolicitudes.add(respuestaLabel);
 

@@ -173,8 +173,8 @@ public class Metodos implements ActionListener {
 
         if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonNoticias) {
 
-            Noticias tarjeta = new Noticias();
-            tarjeta.setVisible(true);
+            Noticias noticias = new Noticias();
+            noticias.setVisible(true);
             vistaPrincipal.dispose();
 
         }

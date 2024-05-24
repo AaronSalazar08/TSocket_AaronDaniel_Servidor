@@ -14,6 +14,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -267,33 +268,39 @@ public class Metodos implements ActionListener {
                         // Inicia el servidor en el puerto especificado
                         ServerSocket servidor = new ServerSocket(puerto);
                         System.out.println("Servidor iniciado");
-        
+
                         while (true) {
                             // Espera a que un cliente se conecte y acepta la conexión
                             Socket socketCliente = servidor.accept();
-        
-                            try (ObjectInputStream inputStream = new ObjectInputStream(socketCliente.getInputStream())) {
+
+                            try (ObjectInputStream inputStream = new ObjectInputStream(
+                                    socketCliente.getInputStream())) {
                                 // Lee el objeto enviado por el cliente
                                 Object objetoRecibido = inputStream.readObject();
-        
+
                                 if (objetoRecibido instanceof ArrayList<?>) {
                                     // Verifica que el objeto recibido sea una lista de pedidos
                                     @SuppressWarnings("unchecked")
                                     ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoRecibido;
-        
+
                                     System.out.println("ArrayList recibido:");
-                                    for (Pedido pedido : listaPedidosRecibidos) {
-                                        System.out.println(pedido);
-                                    }
 
                                     SwingUtilities.invokeLater(new Runnable() {
                                         @Override
                                         public void run() {
                                             for (Pedido pedido : listaPedidosRecibidos) {
                                                 pedidos.pedidoCliente.append(pedido.toString() + "\n");
+
                                             }
                                         }
                                     });
+                                    try (ObjectOutputStream outputStream = new ObjectOutputStream(
+                                            socketCliente.getOutputStream())) {
+                                        outputStream.writeObject(listaPedidosRecibidos);
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+
                                 } else {
                                     System.err.println("El objeto recibido no es una lista de pedidos.");
                                 }
@@ -301,7 +308,7 @@ public class Metodos implements ActionListener {
                                 // Error al intentar leer el objeto recibido
                                 ex.printStackTrace();
                             }
-                            
+
                             // Cierra el socket del cliente
                             socketCliente.close();
                         }
@@ -312,9 +319,6 @@ public class Metodos implements ActionListener {
                 }
             }).start();
         }
-        
-        
-        
 
         if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonUsuario) {
 

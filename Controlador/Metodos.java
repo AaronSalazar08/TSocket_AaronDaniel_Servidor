@@ -13,8 +13,10 @@ import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,6 +24,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import Modelo.Pedido;
 
 public class Metodos implements ActionListener {
 
@@ -143,7 +147,7 @@ public class Metodos implements ActionListener {
                     credencialesValidas.get(entradaUsuario).equals(contrasenaString)) {
 
                 JOptionPane.showMessageDialog(null, "Bienvenido " + entradaUsuario);
-                
+
                 VistaPrincipal vistaPrincipal = new VistaPrincipal();
                 vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
                 vistaPrincipal.setVisible(true);
@@ -246,7 +250,6 @@ public class Metodos implements ActionListener {
 
         }
 
-
         if (pedidos != null && e.getSource() == pedidos.botonVolver) {
 
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
@@ -256,45 +259,61 @@ public class Metodos implements ActionListener {
 
         }
 
-        
-         if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
-
+        if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        servidor = new ServerSocket(puerto);
+                        // Inicia el servidor en el puerto especificado
+                        ServerSocket servidor = new ServerSocket(puerto);
                         System.out.println("Servidor iniciado");
-
+        
                         while (true) {
-                            socketCliente = servidor.accept();
+                            // Espera a que un cliente se conecte y acepta la conexión
+                            Socket socketCliente = servidor.accept();
+        
+                            try (ObjectInputStream inputStream = new ObjectInputStream(socketCliente.getInputStream())) {
+                                // Lee el objeto enviado por el cliente
+                                Object objetoRecibido = inputStream.readObject();
+        
+                                if (objetoRecibido instanceof ArrayList<?>) {
+                                    // Verifica que el objeto recibido sea una lista de pedidos
+                                    @SuppressWarnings("unchecked")
+                                    ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoRecibido;
+        
+                                    System.out.println("ArrayList recibido:");
+                                    for (Pedido pedido : listaPedidosRecibidos) {
+                                        System.out.println(pedido);
+                                    }
 
-                            inputStream = new DataInputStream(socketCliente.getInputStream());
-                            outputStream = new DataOutputStream(socketCliente.getOutputStream());
-
-                            String mensaje = inputStream.readUTF();
-
-                            SwingUtilities.invokeLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    pedidos.pedidoCliente.append(mensaje);
-                                    System.out.println(mensaje);
+                                    SwingUtilities.invokeLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            for (Pedido pedido : listaPedidosRecibidos) {
+                                                pedidos.pedidoCliente.append(pedido.toString() + "\n");
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    System.err.println("El objeto recibido no es una lista de pedidos.");
                                 }
-                            });
-
-                            outputStream.writeUTF("Hola Daniel");
-
+                            } catch (ClassNotFoundException ex) {
+                                // Error al intentar leer el objeto recibido
+                                ex.printStackTrace();
+                            }
+        
+                            // Cierra el socket del cliente
                             socketCliente.close();
                         }
-
                     } catch (IOException ex) {
-                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        // Error al intentar iniciar el servidor
+                        ex.printStackTrace();
                     }
-
                 }
             }).start();
         }
-         
+        
+        
         
 
         if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonUsuario) {
@@ -313,6 +332,29 @@ public class Metodos implements ActionListener {
 
         }
 
+    }
+
+    public void RecibirListaPedidos() {
+        Thread hilo = new Thread(() -> {
+            try {
+
+                Socket socketCliente = servidor.accept();
+
+                ObjectInputStream inputStream = new ObjectInputStream(socketCliente.getInputStream());
+
+                ArrayList<Pedidos> listaPedidosRecbidia = (ArrayList<Pedidos>) inputStream.readObject();
+
+                System.out.println("ArrayList recibido: " + listaPedidosRecbidia);
+
+                inputStream.close();
+                socketCliente.close();
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+
+            }
+        });
+        hilo.start();
     }
 
 }

@@ -27,7 +27,7 @@ public class Pedidos extends JFrame {
 
     public JPanel panelPedidos = new JPanel();
     public JTextArea pedidoCliente;
-    public JScrollPane scroll = new JScrollPane(pedidoCliente);
+    public JScrollPane scroll;
     public JButton botonRefrescar, botonEnviar, botonVolver;
     public JLabel indicacionCliente;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
@@ -94,6 +94,9 @@ public class Pedidos extends JFrame {
         pedidoCliente = new JTextArea();
         pedidoCliente.setEditable(false);
 
+        pedidoCliente = new JTextArea();
+        pedidoCliente.setEditable(false);
+        scroll = new JScrollPane(pedidoCliente);
         scroll.setBounds(30, 80, 300, 280);
         scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos solicitados por los clientes");

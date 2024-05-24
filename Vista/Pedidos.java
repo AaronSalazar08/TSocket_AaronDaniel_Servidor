@@ -26,7 +26,7 @@ import Controlador.Metodos;
 public class Pedidos extends JFrame {
 
     public JPanel panelPedidos = new JPanel();
-    public JTextArea pedidoCliente;
+    public  JTextArea pedidoCliente;
     public JScrollPane scroll;
     public JButton botonRefrescar, botonEnviar, botonVolver;
     public JLabel indicacionCliente;

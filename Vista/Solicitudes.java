@@ -17,7 +17,6 @@ public class Solicitudes extends JFrame {
     public JTextArea informacionAplicante;
     public JRadioButton contradato, rechazado;
     public JButton botonVolver,botonEnviar;
-    public JTextArea tarjetaCliente;
    
     public JLabel respuestaLabel, indicacionCliente;
 
@@ -32,8 +31,8 @@ public class Solicitudes extends JFrame {
             return false;
         }
     };
-    JTable tablaAplicantes = new JTable(modeloTabla);
-    JScrollPane scroll = new JScrollPane(tablaAplicantes);
+    public JTable tablaAplicantes = new JTable(modeloTabla);
+    public JScrollPane scroll = new JScrollPane(tablaAplicantes);
 
     public Solicitudes() {
 

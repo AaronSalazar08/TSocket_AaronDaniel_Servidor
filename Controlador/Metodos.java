@@ -26,15 +26,16 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import Modelo.Aplicante;
 import Modelo.Pedido;
 
 public class Metodos implements ActionListener {
 
-    ServerSocket servidor = null;
-    Socket socketCliente = null;
+    static ServerSocket servidor = null;
+    static Socket socketCliente = null;
     DataInputStream inputStream;
     DataOutputStream outputStream;
-    int puerto = 5000;
+    static int puerto = 5000;
 
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
@@ -152,6 +153,12 @@ public class Metodos implements ActionListener {
                 VistaPrincipal vistaPrincipal = new VistaPrincipal();
                 vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
                 vistaPrincipal.setVisible(true);
+                try {
+                    IniciarServidor();
+                } catch (IOException e1) {
+
+                    e1.printStackTrace();
+                }
                 logIn.dispose();
 
             } else {
@@ -189,6 +196,7 @@ public class Metodos implements ActionListener {
 
             Solicitudes solicitudes = new Solicitudes();
             solicitudes.setVisible(true);
+
             vistaPrincipal.dispose();
 
         }
@@ -260,66 +268,6 @@ public class Metodos implements ActionListener {
 
         }
 
-        if (pedidos != null && e.getSource() == pedidos.botonRefrescar) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        // Inicia el servidor en el puerto especificado
-                        ServerSocket servidor = new ServerSocket(puerto);
-                        System.out.println("Servidor iniciado");
-
-                        while (true) {
-                            // Espera a que un cliente se conecte y acepta la conexión
-                            Socket socketCliente = servidor.accept();
-
-                            try (ObjectInputStream inputStream = new ObjectInputStream(
-                                    socketCliente.getInputStream())) {
-                                // Lee el objeto enviado por el cliente
-                                Object objetoRecibido = inputStream.readObject();
-
-                                if (objetoRecibido instanceof ArrayList<?>) {
-                                    // Verifica que el objeto recibido sea una lista de pedidos
-                                    @SuppressWarnings("unchecked")
-                                    ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoRecibido;
-
-                                    System.out.println("ArrayList recibido:");
-
-                                    SwingUtilities.invokeLater(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            for (Pedido pedido : listaPedidosRecibidos) {
-                                                pedidos.pedidoCliente.append(pedido.toString() + "\n");
-
-                                            }
-                                        }
-                                    });
-                                    try (ObjectOutputStream outputStream = new ObjectOutputStream(
-                                            socketCliente.getOutputStream())) {
-                                        outputStream.writeObject(listaPedidosRecibidos);
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
-                                    }
-
-                                } else {
-                                    System.err.println("El objeto recibido no es una lista de pedidos.");
-                                }
-                            } catch (ClassNotFoundException ex) {
-                                // Error al intentar leer el objeto recibido
-                                ex.printStackTrace();
-                            }
-
-                            // Cierra el socket del cliente
-                            socketCliente.close();
-                        }
-                    } catch (IOException ex) {
-                        // Error al intentar iniciar el servidor
-                        ex.printStackTrace();
-                    }
-                }
-            }).start();
-        }
-
         if (vistaPrincipal != null && e.getSource() == vistaPrincipal.botonUsuario) {
 
             int confirmacion = JOptionPane.showConfirmDialog(null,
@@ -332,33 +280,121 @@ public class Metodos implements ActionListener {
                 LogIn login = new LogIn();
                 login.setVisible(true);
                 vistaPrincipal.dispose();
+
             }
 
         }
 
     }
 
-    public void RecibirListaPedidos() {
-        Thread hilo = new Thread(() -> {
-            try {
+    public void RecibirListaPedidos() throws IOException {
+        try (ObjectInputStream inputStream = new ObjectInputStream(
+                socketCliente.getInputStream())) {
+            // Lee el objeto enviado por el cliente
+            Object objetoRecibido = inputStream.readObject();
 
-                Socket socketCliente = servidor.accept();
+            if (objetoRecibido instanceof ArrayList<?>) {
+                // Verifica que el objeto recibido sea una lista de pedidos
+                @SuppressWarnings("unchecked")
+                ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoRecibido;
 
-                ObjectInputStream inputStream = new ObjectInputStream(socketCliente.getInputStream());
+                System.out.println("ArrayList recibido:");
 
-                ArrayList<Pedidos> listaPedidosRecbidia = (ArrayList<Pedidos>) inputStream.readObject();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Pedido pedido : listaPedidosRecibidos) {
+                            pedidos.pedidoCliente.append(pedido.toString() + "\n");
 
-                System.out.println("ArrayList recibido: " + listaPedidosRecbidia);
+                        }
+                    }
+                });
+                try (ObjectOutputStream outputStream = new ObjectOutputStream(
+                        socketCliente.getOutputStream())) {
+                    outputStream.writeObject(listaPedidosRecibidos);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
 
-                inputStream.close();
-                socketCliente.close();
-
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-
+            } else {
+                System.err.println("El objeto recibido no es una lista de pedidos.");
             }
-        });
-        hilo.start();
+        } catch (ClassNotFoundException ex) {
+            // Error al intentar leer el objeto recibido
+            ex.printStackTrace();
+        }
+    }
+
+    public void IniciarServidor() throws IOException {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    // Inicia el servidor en el puerto especificado
+                    servidor = new ServerSocket(puerto);
+                    System.out.println("Servidor iniciado");
+
+                    while (true) {
+                        // Espera a que un cliente se conecte y acepta la conexión
+                        socketCliente = servidor.accept();
+
+                        // RecibirAplicantes();
+
+                        if (pedidos != null) {
+                            RecibirListaPedidos();
+                            socketCliente.close();
+
+                        }
+
+                        // Cierra el socket del cliente
+
+                    }
+                } catch (IOException ex) {
+                    // Error al intentar iniciar el servidor
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void RecibirAplicantes() throws IOException {
+        try (ObjectInputStream inputStream = new ObjectInputStream(
+                socketCliente.getInputStream())) {
+            // Lee el objeto enviado por el cliente
+            Object objetoRecibido = inputStream.readObject();
+
+            if (objetoRecibido instanceof ArrayList<?>) {
+                // Verifica que el objeto recibido sea una lista de pedidos
+                @SuppressWarnings("unchecked")
+                ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoRecibido;
+
+                System.out.println("ArrayList recibido:");
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Aplicante aplicante : aplicantes) {
+
+                        }
+                    }
+                });
+                try (ObjectOutputStream outputStream = new ObjectOutputStream(
+                        socketCliente.getOutputStream())) {
+                    outputStream.writeObject(aplicantes);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+            } else {
+                System.err.println("El objeto recibido no es una lista de pedidos.");
+            }
+        } catch (ClassNotFoundException ex) {
+            // Error al intentar leer el objeto recibido
+            ex.printStackTrace();
+        }
+
     }
 
 }

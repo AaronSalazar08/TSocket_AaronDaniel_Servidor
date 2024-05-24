@@ -301,7 +301,7 @@ public class Metodos implements ActionListener {
                                 // Error al intentar leer el objeto recibido
                                 ex.printStackTrace();
                             }
-        
+                            
                             // Cierra el socket del cliente
                             socketCliente.close();
                         }

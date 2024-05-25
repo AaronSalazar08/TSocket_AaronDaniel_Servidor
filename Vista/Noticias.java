@@ -50,9 +50,9 @@ public class Noticias extends JFrame implements ActionListener {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonVolver.setIcon(iconoVolverAjustada);
-        botonVolver.addActionListener(this);
         botonVolver.setBorderPainted(false);
         botonVolver.setOpaque(false);
+        botonVolver.addActionListener(this);
 
         botonEnviar = new JButton();
         botonEnviar.setBounds(370, 310, 50, 30);

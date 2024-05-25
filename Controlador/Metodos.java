@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import Modelo.Aplicante;
 import Modelo.Pedido;
 
-public class Metodos implements ActionListener {
+public class Metodos {
 
     public ServerSocket servidor;
     public Socket socket;
@@ -115,54 +115,14 @@ public class Metodos implements ActionListener {
     }
     
 
+    // Metodo para preguntar al usuario si desea cerrar el servidor
+    public void cerrarServidor() {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vistaPrincipal.botonEstado) {
-            estado.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonNoticias) {
-            noticias.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonSolicitudesTrabajos) {
-            solicitudes.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonAtencionCliente) {
-            buzonClientes.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonCerrarServidor) {
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion", JOptionPane.YES_NO_OPTION);
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
-                vistaPrincipal.dispose();
-            }
-        } else if (e.getSource() == buzonClientes.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            buzonClientes.setVisible(false);
-        } else if (e.getSource() == estado.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText().trim());
-            vistaPrincipal.setVisible(true);
-            estado.setVisible(false);
-        } else if (e.getSource() == noticias.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            noticias.setVisible(false);
-        } else if (e.getSource() == solicitudes.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            solicitudes.setVisible(false);
-        } else if (e.getSource() == pedidos.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            pedidos.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonUsuario) {
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas cerrar sesión?", "confirmacion", JOptionPane.YES_NO_OPTION);
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "Cerrando Sesión...");
-                logIn.setVisible(true);
-                vistaPrincipal.setVisible(false);
-            }
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion",
+                JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
+            vistaPrincipal.dispose();
         }
     }
 
@@ -195,11 +155,26 @@ public class Metodos implements ActionListener {
 
                     while (true) {
                         socket = servidor.accept();
-                        RecibirListaPedidos(socket);
-                        RecibirAplicantes(socket);
+
+                        try(ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
+                        ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())){
+
+                            RecibirListaPedidos(entrada, salida);
+                            RecibirAplicantes(entrada, salida);
+
+                        }
+                       
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
+                } finally{
+
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        
+                        e.printStackTrace();
+                    }
                 }
             }).start();
         } else {
@@ -207,17 +182,16 @@ public class Metodos implements ActionListener {
         }
     }
 
-    public void RecibirListaPedidos(Socket socket) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+    public void RecibirListaPedidos(ObjectInputStream entrada, ObjectOutputStream salida) {
+        try {
 
-            Object objetoRecibido = inputStream.readObject();
+            Object objetoPedidos = entrada.readObject();
 
-            if (objetoRecibido instanceof ArrayList<?>) {
+            if (objetoPedidos instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
-                ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoRecibido;
+                ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoPedidos;
 
-                System.out.println("ArrayList recibido:");
+                System.out.println("ArrayList recibido:" + listaPedidosRecibidos);
 
                 SwingUtilities.invokeLater(() -> {
                     for (Pedido pedido : listaPedidosRecibidos) {
@@ -225,41 +199,65 @@ public class Metodos implements ActionListener {
                     }
                 });
 
-                outputStream.writeObject(listaPedidosRecibidos);
-                outputStream.flush();
+                
+                salida.writeObject(listaPedidosRecibidos);
+                salida.flush();
+                
             } else {
                 System.err.println("El objeto recibido no es una lista de pedidos.");
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
+        } finally{
+            // Cierra el socket después de completar la comunicación
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void RecibirAplicantes(Socket socket) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())) {
-            Object objetoRecibido = inputStream.readObject();
-
-            if (objetoRecibido instanceof ArrayList<?>) {
+    public void RecibirAplicantes(ObjectInputStream entrada, ObjectOutputStream salida) {
+        try {
+    
+            Object objetoAplicante = entrada.readObject();
+    
+            if (objetoAplicante instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
-                ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoRecibido;
-
-                System.out.println("ArrayList recibido:");
-
+                ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
+    
+                System.out.println("ArrayList recibido:" + aplicantes);
+    
                 SwingUtilities.invokeLater(() -> {
                     for (Aplicante aplicante : aplicantes) {
+                        // Asegúrate de que solicitudes.informacionAplicante sea del tipo correcto
                         solicitudes.informacionAplicante.append(aplicante.toString() + "\n");
                     }
                 });
+    
+                // No cierres el socket aquí, espera hasta que hayas terminado de comunicarte con el cliente
+    
+                salida.writeObject(aplicantes);
+                salida.flush();
             } else {
                 System.err.println("El objeto recibido no es una lista de aplicantes.");
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
+        } finally {
+            // Cierra el socket después de completar la comunicación
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+    
 
     public void mandarNoticia() {
-        // Implementar el método según sea necesario
+
     }
     
     

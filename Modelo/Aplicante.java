@@ -2,9 +2,9 @@ package Modelo;
 
 import java.io.Serializable;
 
-public class Aplicante extends Thread implements Serializable {
+public class Aplicante implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  
 
     protected String cedula, nombre, correo, postulacion, provincia;
     protected int numero;
@@ -65,5 +65,13 @@ public class Aplicante extends Thread implements Serializable {
     public void setNumero(int numero) {
         this.numero = numero;
     }
+
+    @Override
+    public String toString() {
+        return "Aplicante \nCedula: " + cedula + "\nNombre: " + nombre + "\nCorreo=" + correo + "\nPostula: "
+                + postulacion + "\nProvincia: " + provincia + "\nNumero: " + numero + "]";
+    }
+
+    
 
 }

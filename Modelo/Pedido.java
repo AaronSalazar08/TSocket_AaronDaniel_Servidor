@@ -4,9 +4,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class Pedido extends Thread implements Serializable {
+public class Pedido implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     private String promocion, direccion, nombreCliente, metodoPago, cantidadPromocion;
     private ObjectInputStream entrada;
@@ -79,12 +79,7 @@ public class Pedido extends Thread implements Serializable {
         this.salida = salida;
     }
 
-    @Override
-    public void run(){
-
-
-    }
-
+  
     @Override
     public String toString() {
         return "Pedido\n Promocion: " + promocion + "\nDireccion: " + direccion + "\nNombre: " + nombreCliente

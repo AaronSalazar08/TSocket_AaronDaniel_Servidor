@@ -27,7 +27,7 @@ import javax.swing.SwingUtilities;
 import Modelo.Aplicante;
 import Modelo.Pedido;
 
-public class Metodos{
+public class Metodos {
 
     public ServerSocket servidor;
     public Socket socket;
@@ -112,8 +112,6 @@ public class Metodos{
         vistaPrincipal.setVisible(true);
     }
 
-   
-
     // Metodo para preguntar al usuario si desea cerrar el servidor
     public void cerrarServidor() {
 
@@ -154,8 +152,8 @@ public class Metodos{
 
                     while (true) {
                         socket = servidor.accept();
-                        RecibirListaPedidos(socket);
-                        RecibirAplicantes(socket);
+                        RecibirListaPedidos();
+                        RecibirAplicantes();
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -166,17 +164,17 @@ public class Metodos{
         }
     }
 
-    public void RecibirListaPedidos(Socket socket) {
+    public void RecibirListaPedidos() {
         try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
 
-            Object objetoRecibido = inputStream.readObject();
+            Object objetoPedidos = inputStream.readObject();
 
-            if (objetoRecibido instanceof ArrayList<?>) {
+            if (objetoPedidos instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
-                ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoRecibido;
+                ArrayList<Pedido> listaPedidosRecibidos = (ArrayList<Pedido>) objetoPedidos;
 
-                System.out.println("ArrayList recibido:");
+                System.out.println("ArrayList recibido:" + listaPedidosRecibidos);
 
                 SwingUtilities.invokeLater(() -> {
                     for (Pedido pedido : listaPedidosRecibidos) {
@@ -184,41 +182,66 @@ public class Metodos{
                     }
                 });
 
+                
                 outputStream.writeObject(listaPedidosRecibidos);
                 outputStream.flush();
+                
             } else {
                 System.err.println("El objeto recibido no es una lista de pedidos.");
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
+        } finally{
+            // Cierra el socket después de completar la comunicación
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void RecibirAplicantes(Socket socket) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())) {
-            Object objetoRecibido = inputStream.readObject();
-
-            if (objetoRecibido instanceof ArrayList<?>) {
+    public void RecibirAplicantes() {
+        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+    
+            Object objetoAplicante = inputStream.readObject();
+    
+            if (objetoAplicante instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
-                ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoRecibido;
-
-                System.out.println("ArrayList recibido:");
-
+                ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
+    
+                System.out.println("ArrayList recibido:" + aplicantes);
+    
                 SwingUtilities.invokeLater(() -> {
                     for (Aplicante aplicante : aplicantes) {
+                        // Asegúrate de que solicitudes.informacionAplicante sea del tipo correcto
                         solicitudes.informacionAplicante.append(aplicante.toString() + "\n");
                     }
                 });
+    
+                // No cierres el socket aquí, espera hasta que hayas terminado de comunicarte con el cliente
+    
+                outputStream.writeObject(aplicantes);
+                outputStream.flush();
             } else {
                 System.err.println("El objeto recibido no es una lista de aplicantes.");
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
+        } finally {
+            // Cierra el socket después de completar la comunicación
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+    
 
     public void mandarNoticia() {
-        // Implementar el método según sea necesario
+
     }
 
 }

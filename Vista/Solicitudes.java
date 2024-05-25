@@ -88,7 +88,7 @@ public class Solicitudes extends JFrame implements ActionListener {
         grupoRadios.add(rechazado);
 
         informacionAplicante = new JTextArea();
-        informacionAplicante.setEditable(true);
+        informacionAplicante.setEditable(false);
         scroll = new JScrollPane(informacionAplicante);
         scroll.setBounds(30, 80, 400, 300);
         scroll.setBorder(

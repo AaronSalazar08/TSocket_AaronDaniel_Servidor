@@ -3,12 +3,20 @@ package Vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 import Controlador.Metodos;
 
-public class BuzonClientes extends JFrame {
+public class BuzonClientes extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     public JPanel panelBuzonClientes = new JPanel();
     public JTextArea mensajeCliente, respuestaServidor;
@@ -28,13 +36,6 @@ public class BuzonClientes extends JFrame {
         panelBuzonClientes.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
 
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 500, 50, 30);
@@ -47,7 +48,7 @@ public class BuzonClientes extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonVolver.setIcon(iconoVolverAjustada);
-        botonVolver.addActionListener(metodos);
+        botonVolver.addActionListener(this);
         botonVolver.setBorderPainted(false);
 
         botonRefrescar = new JButton();
@@ -93,13 +94,15 @@ public class BuzonClientes extends JFrame {
         mensajeCliente = new JTextArea();
         mensajeCliente.setEditable(false);
         scrollCliente.setBounds(20, 60, 300, 200);
-        scrollCliente.setBorder(BorderFactory.createCompoundBorder(scrollCliente.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
+        scrollCliente.setBorder(BorderFactory.createCompoundBorder(scrollCliente.getBorder(),
+                BorderFactory.createLineBorder(Color.BLACK, 5)));
 
         respuestaServidor = new JTextArea(" ");
         respuestaServidor.setEditable(true);
 
         scrollServidor = new JScrollPane(respuestaServidor);
-        scrollServidor.setBorder(BorderFactory.createCompoundBorder(scrollServidor.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
+        scrollServidor.setBorder(BorderFactory.createCompoundBorder(scrollServidor.getBorder(),
+                BorderFactory.createLineBorder(Color.BLACK, 5)));
         scrollServidor.setBounds(20, 350, 300, 100);
 
         panelBuzonClientes.add(botonVolver);
@@ -111,5 +114,15 @@ public class BuzonClientes extends JFrame {
         panelBuzonClientes.add(respuestaLabel);
         panelBuzonClientes.add(botonEnviar);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+
+        if(e.getSource() == botonVolver){
+
+            metodos.buzonAprincipal();
+        }
     }
 }

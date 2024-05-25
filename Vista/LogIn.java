@@ -2,22 +2,33 @@ package Vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import Controlador.Metodos;
 
-public class LogIn extends JFrame {
+
+
+public class LogIn extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     public JPanel panelLogIn = new JPanel();
     public JLabel usuario, contrasena;
-    public static JTextField Usuario_txt;
+    public  JTextField Usuario_txt;
     public JPasswordField contrasena_txt;
     public JButton botonContinuar;
     Font fuente = new Font("Times New Roman", Font.BOLD, 16);
@@ -32,12 +43,6 @@ public class LogIn extends JFrame {
         panelLogIn.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
 
         usuario = new JLabel("Usuario");
         usuario.setBounds(110, 25, 150, 30);
@@ -66,12 +71,39 @@ public class LogIn extends JFrame {
         botonContinuar.setBounds(100, 210, 100, 30);
         botonContinuar.setBackground(new Color(111, 113, 121));
         botonContinuar.setForeground(new Color(255, 255, 255));
-        botonContinuar.addActionListener(metodos);
+       botonContinuar.addActionListener(this);
 
         panelLogIn.add(usuario);
         panelLogIn.add(contrasena);
         panelLogIn.add(Usuario_txt);
         panelLogIn.add(contrasena_txt);
         panelLogIn.add(botonContinuar);
+       
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if(e.getSource() == botonContinuar){
+            
+            if(metodos != null ){
+                metodos.handleLogIn();
+
+            }else {
+
+                JOptionPane.showMessageDialog(null, "Metodos is null");
+            }
+
+            
+           
+
+        }
+    }
+
+    
+
+        
+
+       
+    
 }

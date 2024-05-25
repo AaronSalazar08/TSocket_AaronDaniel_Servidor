@@ -3,13 +3,21 @@ package Vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.Metodos;
 
-public class Estado extends JFrame {
+public class Estado extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     public JPanel panelEstado = new JPanel();
     public JLabel pedidoCliente_label, indicacionCliente;
@@ -40,13 +48,7 @@ public class Estado extends JFrame {
         panelEstado.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
+       
 
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 350, 50, 30);
@@ -59,7 +61,7 @@ public class Estado extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonVolver.setIcon(iconoVolverAjustada);
-        botonVolver.addActionListener(metodos);
+        botonVolver.addActionListener(this);
         botonVolver.setBorderPainted(false);
 
         botonEnviarEstado = new JButton();
@@ -90,5 +92,15 @@ public class Estado extends JFrame {
         panelEstado.add(scroll);
         panelEstado.add(indicacionCliente);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+
+        if(e.getSource() == botonVolver){
+
+            metodos.estadoAprincipal();
+        }
     }
 }

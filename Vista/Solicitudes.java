@@ -3,36 +3,34 @@ package Vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.Metodos;
 
-public class Solicitudes extends JFrame {
+public class Solicitudes extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     private static final String RECHAZADO = "Rechazado";
     private static final String CONTRATADO = "Contratado";
     public JPanel panelSolicitudes = new JPanel();
     public JTextArea informacionAplicante;
     public JRadioButton contradato, rechazado;
-    public JButton botonVolver,botonEnviar;
-   
+    public JButton botonVolver, botonEnviar;
+
     public JLabel respuestaLabel, indicacionCliente;
 
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
 
-     private String[] cabecera = { "Cédula", "Nombre", "Correo", "Teléfono", "Postula", "Provincia", };//Titulos a llevar el JTable
-
-    DefaultTableModel modeloTabla = new DefaultTableModel(cabecera, 1000000) {
-
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
-        }
-    };
-    public JTable tablaAplicantes = new JTable(modeloTabla);
-    public JScrollPane scroll = new JScrollPane(tablaAplicantes);
+    public JScrollPane scroll;
 
     public Solicitudes() {
 
@@ -44,13 +42,6 @@ public class Solicitudes extends JFrame {
         panelSolicitudes.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
 
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 400, 50, 30);
@@ -63,10 +54,8 @@ public class Solicitudes extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonVolver.setIcon(iconoVolverAjustada);
-        botonVolver.addActionListener(metodos);
+        botonVolver.addActionListener(this);
         botonVolver.setBorderPainted(false);
-
-        
 
         botonEnviar = new JButton();
         botonEnviar.setBounds(600, 400, 50, 30);
@@ -98,12 +87,14 @@ public class Solicitudes extends JFrame {
         grupoRadios.add(contradato);
         grupoRadios.add(rechazado);
 
-        scroll.setBounds(30, 80, 625, 300);
-        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
+        informacionAplicante = new JTextArea();
+        informacionAplicante.setEditable(true);
+        scroll = new JScrollPane(informacionAplicante);
+        scroll.setBounds(30, 80, 400, 300);
+        scroll.setBorder(
+                BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText(
                 "Aquí apareceran los datos de los interesados en formar parte del equipo de trabajo de Pizza Roma");
-
-       
 
         indicacionCliente = new JLabel("Aplicantes: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
@@ -120,9 +111,19 @@ public class Solicitudes extends JFrame {
         panelSolicitudes.add(contradato);
         panelSolicitudes.add(rechazado);
         panelSolicitudes.add(scroll);
+        // panelSolicitudes.add(informacionAplicante);
         panelSolicitudes.add(indicacionCliente);
         panelSolicitudes.add(respuestaLabel);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if(e.getSource() == botonVolver){
+
+            metodos.solicitudesAprincipal();
+        }
     }
 
 }

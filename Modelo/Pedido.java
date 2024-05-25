@@ -1,28 +1,26 @@
 package Modelo;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class Pedido implements Serializable {
-    private static final long serialVersionUID = -2396901459028578006L;
+public class Pedido extends Thread implements Serializable {
 
-    public String promocion, direccion, nombreCliente, metodoPago, cantidadPromocion;
+    private static final long serialVersionUID = 1L;
 
-    public Pedido(String cantidadPromocion, String promocion,
-            String direccion, String nombreCliente, String metodoPago) {
+    private String promocion, direccion, nombreCliente, metodoPago, cantidadPromocion;
+    private ObjectInputStream entrada;
+    private ObjectOutputStream salida;
 
-        this.cantidadPromocion = cantidadPromocion;
+    public Pedido(String promocion, String direccion, String nombreCliente, String metodoPago, String cantidadPromocion,
+            ObjectInputStream entrada, ObjectOutputStream salida) {
         this.promocion = promocion;
         this.direccion = direccion;
         this.nombreCliente = nombreCliente;
         this.metodoPago = metodoPago;
-    }
-
-    public String getCantidadPromocion() {
-        return cantidadPromocion;
-    }
-
-    public void setCantidadPromocion(String cantidadPromocion) {
         this.cantidadPromocion = cantidadPromocion;
+        this.entrada = entrada;
+        this.salida = salida;
     }
 
     public String getPromocion() {
@@ -32,7 +30,6 @@ public class Pedido implements Serializable {
     public void setPromocion(String promocion) {
         this.promocion = promocion;
     }
-
 
     public String getDireccion() {
         return direccion;
@@ -58,14 +55,41 @@ public class Pedido implements Serializable {
         this.metodoPago = metodoPago;
     }
 
+    public String getCantidadPromocion() {
+        return cantidadPromocion;
+    }
+
+    public void setCantidadPromocion(String cantidadPromocion) {
+        this.cantidadPromocion = cantidadPromocion;
+    }
+
+    public ObjectInputStream getEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(ObjectInputStream entrada) {
+        this.entrada = entrada;
+    }
+
+    public ObjectOutputStream getSalida() {
+        return salida;
+    }
+
+    public void setSalida(ObjectOutputStream salida) {
+        this.salida = salida;
+    }
+
+    @Override
+    public void run(){
+
+
+    }
+
     @Override
     public String toString() {
         return "Pedido\n Promocion: " + promocion + "\nDireccion: " + direccion + "\nNombre: " + nombreCliente
-                + "\nMetodoPago: " + metodoPago + "\nCantidad de Promocion: " + cantidadPromocion + "\n---------------------------------------------------------------------------------------------";
+                + "\nMetodoPago: " + metodoPago + "\nCantidad de Promocion: " + cantidadPromocion
+                + "\n---------------------------------------------------------------------------------------------";
     }
-
-  
-
-    
 
 }

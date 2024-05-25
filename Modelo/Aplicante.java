@@ -2,7 +2,9 @@ package Modelo;
 
 import java.io.Serializable;
 
-public class Aplicante implements Serializable {
+public class Aplicante extends Thread implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     protected String cedula, nombre, correo, postulacion, provincia;
     protected int numero;

@@ -3,6 +3,8 @@ package Vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -23,10 +25,16 @@ import java.util.logging.Logger;
 
 import Controlador.Metodos;
 
-public class Pedidos extends JFrame {
+public class Pedidos extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     public JPanel panelPedidos = new JPanel();
-    public  JTextArea pedidoCliente;
+    public JTextArea pedidoCliente;
     public JScrollPane scroll;
     public JButton botonRefrescar, botonEnviar, botonVolver;
     public JLabel indicacionCliente;
@@ -42,14 +50,7 @@ public class Pedidos extends JFrame {
         panelPedidos.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
-
+       
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 400, 50, 30);
         botonVolver.setBackground(new Color(111, 113, 121));
@@ -59,7 +60,7 @@ public class Pedidos extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonVolver.setIcon(iconoVolverAjustada);
-        botonVolver.addActionListener(metodos);
+        botonVolver.addActionListener(this);
         botonVolver.setBorderPainted(false);
 
         botonRefrescar = new JButton();
@@ -72,7 +73,7 @@ public class Pedidos extends JFrame {
         ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
-        botonRefrescar.addActionListener(metodos);
+        // botonRefrescar.addActionListener(metodos);
 
         botonEnviar = new JButton();
         botonEnviar.setBounds(290, 400, 50, 30);
@@ -98,7 +99,8 @@ public class Pedidos extends JFrame {
         pedidoCliente.setEditable(false);
         scroll = new JScrollPane(pedidoCliente);
         scroll.setBounds(30, 80, 300, 280);
-        scroll.setBorder(BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
+        scroll.setBorder(
+                BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos solicitados por los clientes");
 
         panelPedidos.add(botonVolver);
@@ -107,5 +109,14 @@ public class Pedidos extends JFrame {
         panelPedidos.add(scroll);
         panelPedidos.add(indicacionCliente);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if(e.getSource() == botonVolver){
+
+            metodos.pedidosAprincipal();
+        }
     }
 }

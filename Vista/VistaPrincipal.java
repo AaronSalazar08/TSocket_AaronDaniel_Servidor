@@ -2,6 +2,8 @@ package Vista;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -14,7 +16,13 @@ import javax.swing.border.Border;
 
 import Controlador.Metodos;
 
-public class VistaPrincipal extends JFrame {
+public class VistaPrincipal extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     public JButton botonPedidos, botonEstado, botonNoticias, botonSolicitudesTrabajos, botonAtencionCliente,
             botonCerrarServidor, botonUsuario;
@@ -34,13 +42,6 @@ public class VistaPrincipal extends JFrame {
         panelVistaPrincipal.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
 
         Logo = new ImageIcon("Vista/Imagenes/PIZZA_ROMA.png");
         Image imagenLogo = Logo.getImage();
@@ -60,7 +61,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonPedidos.setIcon(iconoVolverAjustada);
-        botonPedidos.addActionListener(metodos);
+        botonPedidos.addActionListener(this);
 
         botonEstado = new JButton("Estado Pedidos");
         botonEstado.setBounds(150, 250, 200, 30);
@@ -72,7 +73,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenEstadoAjustada = imagenEstado.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoEstadoAjustada = new ImageIcon(imagenEstadoAjustada);
         botonEstado.setIcon(iconoEstadoAjustada);
-        botonEstado.addActionListener(metodos);
+        botonEstado.addActionListener(this);
 
         botonNoticias = new JButton("Agregar Noticias");
         botonNoticias.setBounds(150, 300, 200, 30);
@@ -84,7 +85,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenNoticiaAjustada = imagenNoticia.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoNoticiaAjustada = new ImageIcon(imagenNoticiaAjustada);
         botonNoticias.setIcon(iconoNoticiaAjustada);
-        botonNoticias.addActionListener(metodos);
+        botonNoticias.addActionListener(this);
 
         botonSolicitudesTrabajos = new JButton(" Ver Aplicantes");
         botonSolicitudesTrabajos.setBounds(150, 350, 200, 30);
@@ -96,7 +97,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenAplicantesAjustada = imagenAplicantes.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoAplicantesAjustada = new ImageIcon(imagenAplicantesAjustada);
         botonSolicitudesTrabajos.setIcon(iconoAplicantesAjustada);
-        botonSolicitudesTrabajos.addActionListener(metodos);
+        botonSolicitudesTrabajos.addActionListener(this);
 
         botonAtencionCliente = new JButton();
         botonAtencionCliente.setBounds(300, 500, 60, 35);
@@ -108,7 +109,7 @@ public class VistaPrincipal extends JFrame {
         Image imagenBuzonAjustada = imagenBuzon.getScaledInstance(60, 35, Image.SCALE_SMOOTH);
         ImageIcon iconoBuzonAjustada = new ImageIcon(imagenBuzonAjustada);
         botonAtencionCliente.setIcon(iconoBuzonAjustada);
-        botonAtencionCliente.addActionListener(metodos);
+        botonAtencionCliente.addActionListener(this);
         botonAtencionCliente.setBorderPainted(false);
 
         botonCerrarServidor = new JButton();
@@ -122,7 +123,7 @@ public class VistaPrincipal extends JFrame {
         ImageIcon iconoCerrarServidorAjustada = new ImageIcon(imagenCerrarServidorAjustada);
         botonCerrarServidor.setIcon(iconoCerrarServidorAjustada);
         botonCerrarServidor.setBorderPainted(false);
-        botonCerrarServidor.addActionListener(metodos);
+        // botonCerrarServidor.addActionListener(metodos);
 
         botonUsuario = new JButton();
         botonUsuario.setBounds(15, 10, 30, 30);
@@ -130,7 +131,7 @@ public class VistaPrincipal extends JFrame {
         botonUsuario.setOpaque(false);
         botonUsuario.setBackground(new Color(26, 28, 37));
         botonUsuario.setToolTipText("Cerrar Sesión");
-        botonUsuario.addActionListener(metodos);
+        // botonUsuario.addActionListener(metodos);
         this.PintarB(this.botonUsuario, "Vista/Imagenes/usuario.png");
 
         usuarioLabel = new JLabel();
@@ -161,5 +162,36 @@ public class VistaPrincipal extends JFrame {
         lbl.setIcon(this.icono);
         this.repaint();
     }// Fin del metodo
+
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       
+        if(e.getSource() == botonPedidos){
+
+            metodos.principalApedidos();
+        }
+
+        if(e.getSource() == botonEstado){
+
+            metodos.principalAEstado();
+        }
+
+        if(e.getSource() == botonNoticias){
+
+            metodos.principalAnoticias();
+        }
+
+        if(e.getSource() == botonSolicitudesTrabajos){
+
+            metodos.principalAsolicitudes();
+        }
+
+        if(e.getSource() == botonAtencionCliente){
+
+            metodos.principalAbuzon();
+        }
+    }
 
 }

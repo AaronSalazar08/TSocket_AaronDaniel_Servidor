@@ -3,12 +3,20 @@ package Vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 import Controlador.Metodos;
 
-public class Noticias extends JFrame {
+public class Noticias extends JFrame implements ActionListener {
+
+    public void setMetodos(Metodos metodos) {
+        this.metodos = metodos;
+    }
+
+    public static Metodos metodos;
 
     private static final String TIMES_NEW_ROMAN = "Times New Roman";
     public JPanel panelNoticias = new JPanel();
@@ -29,13 +37,7 @@ public class Noticias extends JFrame {
         panelNoticias.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
-        Elementos();
-
-    }
-
-    public void Elementos() {
-
-        Metodos metodos = new Metodos(this);
+        
 
         botonVolver = new JButton();
         botonVolver.setBounds(40, 310, 50, 30);
@@ -48,7 +50,7 @@ public class Noticias extends JFrame {
         Image imagenVolverAjustada = imagenVovler.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoVolverAjustada = new ImageIcon(imagenVolverAjustada);
         botonVolver.setIcon(iconoVolverAjustada);
-        botonVolver.addActionListener(metodos);
+        botonVolver.addActionListener(this);
         botonVolver.setBorderPainted(false);
         botonVolver.setOpaque(false);
 
@@ -87,6 +89,15 @@ public class Noticias extends JFrame {
         panelNoticias.add(scroll);
         panelNoticias.add(indicacionCliente);
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if(e.getSource() == botonVolver){
+
+            metodos.noticiasAprincipal();
+        }
     }
 
 }

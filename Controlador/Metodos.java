@@ -8,8 +8,6 @@ import Vista.Solicitudes;
 import Vista.Noticias;
 import Vista.VistaPrincipal;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,7 +27,7 @@ import javax.swing.SwingUtilities;
 import Modelo.Aplicante;
 import Modelo.Pedido;
 
-public class Metodos implements ActionListener {
+public class Metodos{
 
     public ServerSocket servidor;
     public Socket socket;
@@ -53,116 +51,77 @@ public class Metodos implements ActionListener {
         this.pedidos = pedidos;
     }
 
-    //Metodos para pasar de ventana JFrame a otra 
-    public void principalApedidos (){
+    // Metodos para pasar de ventana JFrame a otra
+    public void principalApedidos() {
 
         pedidos.setVisible(true);
         vistaPrincipal.setVisible(false);
     }
 
-    public void pedidosAprincipal (){
+    public void pedidosAprincipal() {
 
         vistaPrincipal.setVisible(true);
         pedidos.setVisible(false);
     }
 
-    public void principalAEstado (){
+    public void principalAEstado() {
 
         vistaPrincipal.setVisible(false);
         estado.setVisible(true);
     }
 
-    public void estadoAprincipal (){
+    public void estadoAprincipal() {
 
         estado.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
 
-    public void principalAnoticias (){
+    public void principalAnoticias() {
 
         vistaPrincipal.setVisible(false);
         noticias.setVisible(true);
     }
 
-    public void noticiasAprincipal (){
+    public void noticiasAprincipal() {
 
         noticias.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
 
-    public void principalAsolicitudes (){
+    public void principalAsolicitudes() {
 
         vistaPrincipal.setVisible(false);
         solicitudes.setVisible(true);
     }
 
-    public void solicitudesAprincipal (){
+    public void solicitudesAprincipal() {
 
         solicitudes.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
 
-    public void principalAbuzon (){
+    public void principalAbuzon() {
 
         vistaPrincipal.setVisible(false);
         buzonClientes.setVisible(true);
     }
 
-    public void buzonAprincipal (){
+    public void buzonAprincipal() {
 
         buzonClientes.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
-    
 
+   
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vistaPrincipal.botonEstado) {
-            estado.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonNoticias) {
-            noticias.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonSolicitudesTrabajos) {
-            solicitudes.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonAtencionCliente) {
-            buzonClientes.setVisible(true);
-            vistaPrincipal.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonCerrarServidor) {
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion", JOptionPane.YES_NO_OPTION);
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
-                vistaPrincipal.dispose();
-            }
-        } else if (e.getSource() == buzonClientes.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            buzonClientes.setVisible(false);
-        } else if (e.getSource() == estado.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText().trim());
-            vistaPrincipal.setVisible(true);
-            estado.setVisible(false);
-        } else if (e.getSource() == noticias.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            noticias.setVisible(false);
-        } else if (e.getSource() == solicitudes.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            solicitudes.setVisible(false);
-        } else if (e.getSource() == pedidos.botonVolver) {
-            vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
-            vistaPrincipal.setVisible(true);
-            pedidos.setVisible(false);
-        } else if (e.getSource() == vistaPrincipal.botonUsuario) {
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas cerrar sesión?", "confirmacion", JOptionPane.YES_NO_OPTION);
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "Cerrando Sesión...");
-                logIn.setVisible(true);
-                vistaPrincipal.setVisible(false);
-            }
+    // Metodo para preguntar al usuario si desea cerrar el servidor
+    public void cerrarServidor() {
+
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion",
+                JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
+            vistaPrincipal.dispose();
         }
     }
 
@@ -209,7 +168,7 @@ public class Metodos implements ActionListener {
 
     public void RecibirListaPedidos(Socket socket) {
         try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
 
             Object objetoRecibido = inputStream.readObject();
 
@@ -261,8 +220,5 @@ public class Metodos implements ActionListener {
     public void mandarNoticia() {
         // Implementar el método según sea necesario
     }
-    
-    
-    
-}
 
+}

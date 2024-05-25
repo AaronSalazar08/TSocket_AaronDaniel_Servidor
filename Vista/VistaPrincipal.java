@@ -123,15 +123,14 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         ImageIcon iconoCerrarServidorAjustada = new ImageIcon(imagenCerrarServidorAjustada);
         botonCerrarServidor.setIcon(iconoCerrarServidorAjustada);
         botonCerrarServidor.setBorderPainted(false);
-        // botonCerrarServidor.addActionListener(metodos);
+        botonCerrarServidor.addActionListener(this);
 
         botonUsuario = new JButton();
         botonUsuario.setBounds(15, 10, 30, 30);
         botonUsuario.setBorderPainted(false);
         botonUsuario.setOpaque(false);
         botonUsuario.setBackground(new Color(26, 28, 37));
-        botonUsuario.setToolTipText("Cerrar Sesión");
-        // botonUsuario.addActionListener(metodos);
+        botonUsuario.addActionListener(this);
         this.PintarB(this.botonUsuario, "Vista/Imagenes/usuario.png");
 
         usuarioLabel = new JLabel();
@@ -191,6 +190,11 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         if(e.getSource() == botonAtencionCliente){
 
             metodos.principalAbuzon();
+        }
+
+        if(e.getSource() == botonCerrarServidor){
+
+            metodos.cerrarServidor();
         }
     }
 

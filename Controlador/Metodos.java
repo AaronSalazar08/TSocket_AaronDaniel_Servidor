@@ -154,6 +154,7 @@ public class Metodos {
                         socket = servidor.accept();
                         RecibirListaPedidos();
                         RecibirAplicantes();
+                        RecibirMensaje();
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -182,16 +183,15 @@ public class Metodos {
                     }
                 });
 
-                
                 outputStream.writeObject(listaPedidosRecibidos);
                 outputStream.flush();
-                
+
             } else {
                 System.err.println("El objeto recibido no es una lista de pedidos.");
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
-        } finally{
+        } finally {
             // Cierra el socket después de completar la comunicación
             try {
                 socket.close();
@@ -204,24 +204,25 @@ public class Metodos {
     public void RecibirAplicantes() {
         try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
-    
+
             Object objetoAplicante = inputStream.readObject();
-    
+
             if (objetoAplicante instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
                 ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
-    
+
                 System.out.println("ArrayList recibido:" + aplicantes);
-    
+
                 SwingUtilities.invokeLater(() -> {
                     for (Aplicante aplicante : aplicantes) {
                         // Asegúrate de que solicitudes.informacionAplicante sea del tipo correcto
                         solicitudes.informacionAplicante.append(aplicante.toString() + "\n");
                     }
                 });
-    
-                // No cierres el socket aquí, espera hasta que hayas terminado de comunicarte con el cliente
-    
+
+                // No cierres el socket aquí, espera hasta que hayas terminado de comunicarte
+                // con el cliente
+
                 outputStream.writeObject(aplicantes);
                 outputStream.flush();
             } else {
@@ -238,9 +239,34 @@ public class Metodos {
             }
         }
     }
-    
 
     public void mandarNoticia() {
+
+    }
+
+    public void RecibirMensaje() {
+
+        try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
+
+            String mensajeRecibido = inputStream.readUTF();
+
+            buzonClientes.mensajeCliente.append(mensajeRecibido);
+
+            String mensajeEnviado = buzonClientes.respuestaServidor.getText().trim();
+
+            outputStream.writeUTF(mensajeEnviado);
+            outputStream.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 

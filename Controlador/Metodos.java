@@ -208,7 +208,7 @@ public class Metodos {
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
-        } finally{
+        } finally {
             // Cierra el socket después de completar la comunicación
             try {
                 socket.close();
@@ -226,9 +226,9 @@ public class Metodos {
             if (objetoAplicante instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
                 ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
-    
+
                 System.out.println("ArrayList recibido:" + aplicantes);
-    
+
                 SwingUtilities.invokeLater(() -> {
                     for (Aplicante aplicante : aplicantes) {
                         // Asegúrate de que solicitudes.informacionAplicante sea del tipo correcto
@@ -254,7 +254,6 @@ public class Metodos {
             }
         }
     }
-    
 
     public void mandarNoticia() {
 

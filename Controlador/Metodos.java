@@ -199,6 +199,10 @@ public class Metodos {
             ex.printStackTrace();
         }
     }
+       
+    
+
+   
 
    public void RecibirAplicantes(ObjectInputStream entrada, ObjectOutputStream salida) {
     try {

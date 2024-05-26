@@ -118,5 +118,6 @@ public class Pedidos extends JFrame implements ActionListener {
 
             metodos.pedidosAprincipal();
         }
+
     }
 }

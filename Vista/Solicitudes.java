@@ -124,6 +124,8 @@ public class Solicitudes extends JFrame implements ActionListener {
 
             metodos.solicitudesAprincipal();
         }
+
+        
     }
 
 }

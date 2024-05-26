@@ -124,5 +124,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
 
             metodos.buzonAprincipal();
         }
+
+        
     }
 }

@@ -38,30 +38,30 @@ public class Metodos {
     private Estado estado;
     private Noticias noticias;
     private Solicitudes solicitudes;
-    private Pedidos pedidos;
+    private Pedidos enlacepedidos;
 
     public Metodos(VistaPrincipal vistaPrincipal, LogIn logIn, BuzonClientes buzonClientes, Estado estado,
-            Noticias noticias, Solicitudes solicitudes, Pedidos pedidos) {
+            Noticias noticias, Solicitudes solicitudes, Pedidos enlacepedidos) {
         this.vistaPrincipal = vistaPrincipal;
         this.logIn = logIn;
         this.buzonClientes = buzonClientes;
         this.estado = estado;
         this.noticias = noticias;
         this.solicitudes = solicitudes;
-        this.pedidos = pedidos;
+        this.enlacepedidos = enlacepedidos;
     }
 
     // Metodos para pasar de ventana JFrame a otra
     public void principalApedidos() {
 
-        pedidos.setVisible(true);
+        enlacepedidos.setVisible(true);
         vistaPrincipal.setVisible(false);
     }
 
     public void pedidosAprincipal() {
 
         vistaPrincipal.setVisible(true);
-        pedidos.setVisible(false);
+        enlacepedidos.setVisible(false);
     }
 
     public void principalAEstado() {
@@ -136,7 +136,7 @@ public class Metodos {
             return;
         }
 
-        if (credencialesValidas.containsKey(entradaUsuario) &&
+        else if (credencialesValidas.containsKey(entradaUsuario) &&
                 credencialesValidas.get(entradaUsuario).equals(contrasenaString)) {
 
             JOptionPane.showMessageDialog(null, "Bienvenido " + entradaUsuario);
@@ -145,31 +145,57 @@ public class Metodos {
             vistaPrincipal.setVisible(true);
             logIn.setVisible(false);
 
-            new Thread(() -> {
-                try {
-                    servidor = new ServerSocket(5000);
-                    System.out.println("Servidor iniciado");
+            try {
+                servidor = new ServerSocket(5000);
+                System.out.println("Servidor iniciado");
 
-                    while (true) {
-                        socket = servidor.accept();
-                        RecibirListaPedidos();
-                        RecibirAplicantes();
-                        RecibirMensaje();
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                while (true) {
+                    socket = servidor.accept();
+
+                    Thread hilo = new Thread(() -> {
+                        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+
+                            while (true) {
+
+                                RecibirListaPedidos(inputStream, outputStream);
+                                RecibirAplicantes(inputStream, outputStream);
+
+
+                            }
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } finally {
+
+                            try {
+
+                                socket.close();
+                            } catch (IOException e) {
+
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }); hilo.start();
                 }
-            }).start();
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
         }
+
     }
 
-    public void RecibirListaPedidos() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+    public void RecibirListaPedidos(ObjectInputStream inputStream, ObjectOutputStream outputStream) {
+        try {
 
             Object objetoPedidos = inputStream.readObject();
+            System.out.println("Tipo de objeto recibido en RecibirAplicantes: " + objetoPedidos.getClass().getName());
 
             if (objetoPedidos instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
@@ -179,7 +205,7 @@ public class Metodos {
 
                 SwingUtilities.invokeLater(() -> {
                     for (Pedido pedido : listaPedidosRecibidos) {
-                        pedidos.pedidoCliente.append(pedido.toString() + "\n");
+                        enlacepedidos.pedidoCliente.append(pedido.toString() + "\n");
                     }
                 });
 
@@ -191,37 +217,28 @@ public class Metodos {
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
-        } finally {
-            // Cierra el socket después de completar la comunicación
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    public void RecibirAplicantes() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+    public void RecibirAplicantes(ObjectInputStream inputStream, ObjectOutputStream outputStream) {
+        try {
 
             Object objetoAplicante = inputStream.readObject();
+            System.out.println("Tipo de objeto recibido en RecibirAplicantes: " + objetoAplicante.getClass().getName());
 
             if (objetoAplicante instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
+
                 ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
 
-                System.out.println("ArrayList recibido:" + aplicantes);
+                System.out.println("ArrayList recibido:" + aplicantes.toString());
 
                 SwingUtilities.invokeLater(() -> {
                     for (Aplicante aplicante : aplicantes) {
-                        // Asegúrate de que solicitudes.informacionAplicante sea del tipo correcto
+
                         solicitudes.informacionAplicante.append(aplicante.toString() + "\n");
                     }
                 });
-
-                // No cierres el socket aquí, espera hasta que hayas terminado de comunicarte
-                // con el cliente
 
                 outputStream.writeObject(aplicantes);
                 outputStream.flush();
@@ -230,13 +247,6 @@ public class Metodos {
             }
         } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
-        } finally {
-            // Cierra el socket después de completar la comunicación
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -253,21 +263,55 @@ public class Metodos {
 
             buzonClientes.mensajeCliente.append(mensajeRecibido);
 
-            String mensajeEnviado = buzonClientes.respuestaServidor.getText().trim();
+            /*
+             * String mensajeEnviado = buzonClientes.respuestaServidor.getText().trim();
+             * 
+             * outputStream.writeUTF(mensajeEnviado);
+             */
 
-            outputStream.writeUTF(mensajeEnviado);
-            outputStream.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+    }
+
+    class ServidorHilo extends Thread {
+
+        private Socket socket;
+
+        public ServidorHilo(Socket socket) {
+            this.socket = socket;
         }
 
+        public void run() {
+
+            try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+
+                Object objetoRecibido;
+
+                try {
+                    while ((objetoRecibido = inputStream.readObject()) != null) {
+
+                    }
+                } catch (ClassNotFoundException e) {
+
+                    e.printStackTrace();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+
+                try {
+                    socket.close();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 
 }

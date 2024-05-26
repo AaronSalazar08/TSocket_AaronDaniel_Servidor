@@ -68,7 +68,7 @@ public class Aplicante implements Serializable {
 
     @Override
     public String toString() {
-        return "Aplicante \nCedula: " + cedula + "\nNombre: " + nombre + "\nCorreo=" + correo + "\nPostula: "
+        return "Aplicante \nCedula: " + cedula + "\nNombre: " + nombre + "\nCorreo:" + correo + "\nPostula: "
                 + postulacion + "\nProvincia: " + provincia + "\nNumero: " + numero + "]";
     }
 

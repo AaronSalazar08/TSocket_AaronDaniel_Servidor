@@ -34,6 +34,7 @@ public class Metodos {
     public ServerSocket servidor;
     public Socket socket;
     private Thread hiloServidor;
+    private volatile boolean running = false;
 
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
@@ -125,13 +126,21 @@ public class Metodos {
         }
     }
 
-    public void IniciarServerPedidos() {
+    public synchronized void IniciarServerPedidos() {
 
+        
+        if (running) {
+
+            System.out.println("El servidor ya está en ejecución...");
+            return;
+        }
+
+        running = true;
         hiloServidor = new Thread(() -> {
             try {
                 servidor = new ServerSocket(5000);
                 System.out.println("Servidor iniciado");
-                while (true) {
+                while (running) {
                     try {
                         socket = servidor.accept();
                         try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
@@ -149,6 +158,12 @@ public class Metodos {
                             }
                         }
                     } catch (IOException ex) {
+
+                        if (running) {
+                            ex.printStackTrace();
+                        } else {
+                            System.out.println("Servidor detenido.");
+                        }
                         ex.printStackTrace();
                     }
                 }
@@ -161,39 +176,49 @@ public class Metodos {
         hiloServidor.start();
     }
 
-    public void detenerServidor() {
+    public synchronized void detenerServidor() {
 
+        if (!running) {
+            System.out.println("El servidor no está en ejecución");
+            return;
+        }
+    
+        running = false;  // Cambiar el estado antes de cerrar el servidor
+    
         try {
-
             if (servidor != null && !servidor.isClosed()) {
-
                 servidor.close();
             }
-        } catch (EOFException e) {
-
-        }
-
-        catch (IOException e) {
-
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
+    
         try {
-
-            hiloServidor.join();
+            if (hiloServidor != null) {
+                hiloServidor.join(); // Esperar a que el hilo del servidor termine
+            }
         } catch (InterruptedException e) {
-
             e.printStackTrace();
+            Thread.currentThread().interrupt(); // Restaurar el estado de interrupción
         }
+    
+        System.out.println("Servidor detenido");
     }
+    
 
-    public void IniciarServerAplicantes() {
+    public synchronized void IniciarServerAplicantes() {
 
+        if (running) {
+
+            System.out.println("El servidor ya está en ejecución...");
+            return;
+        }
+        running = true;
         hiloServidor = new Thread(() -> {
             try {
                 servidor = new ServerSocket(5000);
                 System.out.println("Servidor iniciado");
-                while (true) {
+                while (running) {
                     try {
                         socket = servidor.accept();
                         try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
@@ -211,6 +236,12 @@ public class Metodos {
                             }
                         }
                     } catch (IOException ex) {
+
+                        if (running) {
+                            ex.printStackTrace();
+                        } else {
+                            System.out.println("Servidor detenido.");
+                        }
                         ex.printStackTrace();
                     }
                 }
@@ -225,19 +256,30 @@ public class Metodos {
         hiloServidor.start();
     }
 
-    public void RecibirMensaje() {
+    public synchronized void RecibirMensaje() {
+        if (running) {
 
+            System.out.println("El servidor ya está en ejecución...");
+            return;
+        }
+        running = true;
         hiloServidor = new Thread(() -> {
             try {
                 servidor = new ServerSocket(5000);
                 System.out.println("Servidor iniciado");
-                while (true) {
+                while (running) {
                     socket = servidor.accept();
 
                     try (DataInputStream entrada = new DataInputStream(socket.getInputStream())) {
 
                         entradaMensaje(entrada);
                     } catch (IOException ex) {
+
+                        if (running) {
+                            ex.printStackTrace();
+                        } else {
+                            System.out.println("Servidor detenido.");
+                        }
                         ex.printStackTrace();
                     }
                 }
@@ -344,7 +386,7 @@ public class Metodos {
 
         if (mensajeServidor.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese un mensaje para enviar al cliente");
-        } else  if(!mensajeServidor.isEmpty()){
+        } else if (!mensajeServidor.isEmpty()) {
 
             try (DataOutputStream salida = new DataOutputStream(socket.getOutputStream())) {
                 salida.writeUTF(mensajeServidor);
@@ -355,7 +397,6 @@ public class Metodos {
 
                 e.printStackTrace();
             }
-           
 
         }
 

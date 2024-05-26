@@ -8,8 +8,6 @@ import Vista.Solicitudes;
 import Vista.Noticias;
 import Vista.VistaPrincipal;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -54,67 +52,66 @@ public class Metodos {
         this.enlacepedidos = enlacepedidos;
     }
 
-    //Metodos para pasar de ventana JFrame a otra 
-    public void principalApedidos (){
+    // Metodos para pasar de ventana JFrame a otra
+    public void principalApedidos() {
 
         enlacepedidos.setVisible(true);
         vistaPrincipal.setVisible(false);
     }
 
-    public void pedidosAprincipal (){
+    public void pedidosAprincipal() {
 
         vistaPrincipal.setVisible(true);
         enlacepedidos.setVisible(false);
     }
 
-    public void principalAEstado (){
+    public void principalAEstado() {
 
         vistaPrincipal.setVisible(false);
         estado.setVisible(true);
     }
 
-    public void estadoAprincipal (){
+    public void estadoAprincipal() {
 
         estado.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
 
-    public void principalAnoticias (){
+    public void principalAnoticias() {
 
         vistaPrincipal.setVisible(false);
         noticias.setVisible(true);
     }
 
-    public void noticiasAprincipal (){
+    public void noticiasAprincipal() {
 
         noticias.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
 
-    public void principalAsolicitudes (){
+    public void principalAsolicitudes() {
 
         vistaPrincipal.setVisible(false);
         solicitudes.setVisible(true);
     }
 
-    public void solicitudesAprincipal (){
+    public void solicitudesAprincipal() {
 
         solicitudes.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
 
-    public void principalAbuzon (){
+    public void principalAbuzon() {
 
         vistaPrincipal.setVisible(false);
         buzonClientes.setVisible(true);
     }
 
-    public void buzonAprincipal (){
+    public void buzonAprincipal() {
 
         buzonClientes.setVisible(false);
         vistaPrincipal.setVisible(true);
     }
-    
 
    public void cerrarServidor() {
         int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion",
@@ -174,12 +171,14 @@ public class Metodos {
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
         }
+
     }
 
     public void RecibirListaPedidos(ObjectInputStream entrada, ObjectOutputStream salida) {
         try {
 
             Object objetoPedidos = entrada.readObject();
+            System.out.println("Tipo de objeto recibido en RecibirAplicantes: " + objetoPedidos.getClass().getName());
 
             if (objetoPedidos instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
@@ -199,6 +198,8 @@ public class Metodos {
             ex.printStackTrace();
         }
     }
+       
+    
 
    public void RecibirAplicantes(ObjectInputStream entrada, ObjectOutputStream salida) {
     try {
@@ -230,8 +231,68 @@ public class Metodos {
     } 
 }
 
-   
-    
-    
-}
 
+
+    
+
+    public void RecibirMensaje() {
+
+        try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
+
+            String mensajeRecibido = inputStream.readUTF();
+
+            buzonClientes.mensajeCliente.append(mensajeRecibido);
+
+            /*
+             * String mensajeEnviado = buzonClientes.respuestaServidor.getText().trim();
+             * 
+             * outputStream.writeUTF(mensajeEnviado);
+             */
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    class ServidorHilo extends Thread {
+
+        private Socket socket;
+
+        public ServidorHilo(Socket socket) {
+            this.socket = socket;
+        }
+
+        public void run() {
+
+            try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+
+                Object objetoRecibido;
+
+                try {
+                    while ((objetoRecibido = inputStream.readObject()) != null) {
+
+                    }
+                } catch (ClassNotFoundException e) {
+
+                    e.printStackTrace();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+
+                try {
+                    socket.close();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+}

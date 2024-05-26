@@ -143,6 +143,7 @@ public class Metodos {
             vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
             vistaPrincipal.setVisible(true);
             logIn.setVisible(false);
+<<<<<<< Updated upstream
             new Thread(() -> {
                 try {
                     servidor = new ServerSocket(5000);
@@ -165,6 +166,43 @@ public class Metodos {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+=======
+
+            try {
+                servidor = new ServerSocket(5000);
+                System.out.println("Servidor iniciado");
+
+                while (true) {
+                    socket = servidor.accept();
+
+                    new Thread(() -> {
+                        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
+
+                            while (true) {
+
+                                RecibirListaPedidos(inputStream, outputStream);
+                                RecibirAplicantes(inputStream, outputStream);
+
+
+                            }
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } finally {
+
+                            try {
+
+                                socket.close();
+                            } catch (IOException e) {
+
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }).start();
+>>>>>>> Stashed changes
                 }
             }).start();
            

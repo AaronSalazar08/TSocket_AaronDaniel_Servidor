@@ -61,6 +61,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
         ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
+        botonRefrescar.setOpaque(false);
         botonRefrescar.addActionListener(this);
 
         botonEnviar = new JButton();

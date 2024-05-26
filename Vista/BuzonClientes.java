@@ -20,7 +20,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
 
     public JPanel panelBuzonClientes = new JPanel();
     public JTextArea mensajeCliente, respuestaServidor;
-    public JScrollPane scrollCliente = new JScrollPane(mensajeCliente);
+    public JScrollPane scrollCliente;
     public JScrollPane scrollServidor;
     public JButton botonRefrescar, botonEnviar, botonVolver;
     public JLabel enviar, indicacionesCliente, division, respuestaLabel;
@@ -74,6 +74,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
         ImageIcon iconoEnviarAjustada = new ImageIcon(imagenEnviarAjustada);
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);
+        botonEnviar.addActionListener(this);
 
         indicacionesCliente = new JLabel("Mensajes de Clientes: ");
         indicacionesCliente.setBounds(30, 20, 200, 30);
@@ -93,6 +94,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
 
         mensajeCliente = new JTextArea();
         mensajeCliente.setEditable(false);
+        scrollCliente = new JScrollPane(mensajeCliente);
         scrollCliente.setBounds(20, 60, 300, 200);
         scrollCliente.setBorder(BorderFactory.createCompoundBorder(scrollCliente.getBorder(),
                 BorderFactory.createLineBorder(Color.BLACK, 5)));
@@ -123,6 +125,11 @@ public class BuzonClientes extends JFrame implements ActionListener {
         if(e.getSource() == botonVolver){
 
             metodos.buzonAprincipal();
+            metodos.detenerServidor();
+        }
+        if(e.getSource() == botonEnviar){
+
+            metodos.EnviarMensaje();
         }
 
         

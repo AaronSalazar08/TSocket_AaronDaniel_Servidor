@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sound.midi.Track;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -32,6 +33,8 @@ public class Metodos {
 
     public ServerSocket servidor;
     public Socket socket;
+    private volatile boolean running = false; // Variable de control
+    private Thread hiloServidor;
 
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
@@ -113,20 +116,190 @@ public class Metodos {
         vistaPrincipal.setVisible(true);
     }
 
-   public void cerrarServidor() {
+    public void cerrarServidor() {
         int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion",
                 JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Saliendo del servidor...");
             vistaPrincipal.dispose();
+
+        }
+    }
+
+    public synchronized void IniciarServerPedidos() {
+
+        if (running) {
+
+            System.out.println("El servidor ya está en ejecución...");
+            return;
+        }
+
+        running = true;
+        hiloServidor = new Thread(() -> {
             try {
-                if (servidor != null && !servidor.isClosed()) {
-                    servidor.close();
+                servidor = new ServerSocket(5000);
+                System.out.println("Servidor iniciado");
+                while (running) {
+                    try {
+                        socket = servidor.accept();
+                        try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
+                                ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())) {
+                           RecibirListaPedidos(entrada, salida);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } finally {
+                            if (socket != null && !socket.isClosed()) {
+                                try {
+                                    socket.close();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }
+                    } catch (IOException ex) {
+                        if (running) {
+                            ex.printStackTrace();
+                        } else {
+                            System.out.println("Servidor detenido.");
+                        }
+                    }
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    if (servidor != null && !servidor.isClosed()) {
+                        servidor.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        });
+        hiloServidor.start();
+    }
+
+    public synchronized void detenerServidor() {
+
+        if (!running) {
+
+            System.out.println("El servidor no esta en ejecucion");
+            return;
         }
+
+        running = false;
+
+        try {
+
+            if (servidor != null && !servidor.isClosed()) {
+
+                servidor.close();
+            }
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+        try {
+
+            hiloServidor.join();
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void IniciarServerAplicantes() {
+
+        if (running) {
+
+            System.out.println("El servidor ya está en ejecución...");
+            return;
+        }
+
+        running = true;
+        hiloServidor = new Thread(() -> {
+            try {
+                servidor = new ServerSocket(5000);
+                System.out.println("Servidor iniciado");
+                while (running) {
+                    try {
+                        socket = servidor.accept();
+                        try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
+                                ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())) {
+                           RecibirListaPedidos(entrada, salida);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } finally {
+                            if (socket != null && !socket.isClosed()) {
+                                try {
+                                    socket.close();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }
+                    } catch (IOException ex) {
+                        if (running) {
+                            ex.printStackTrace();
+                        } else {
+                            System.out.println("Servidor detenido.");
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    if (servidor != null && !servidor.isClosed()) {
+                        servidor.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        hiloServidor.start();
+    }
+
+    public synchronized void IniciarServerBuzon() {
+
+        if (running) {
+
+            System.out.println("El servidor ya está en ejecución...");
+            return;
+        }
+
+        running = true;
+        hiloServidor = new Thread(() -> {
+            try {
+                servidor = new ServerSocket(5000);
+                System.out.println("Servidor iniciado");
+                while (running) {
+                    try (Socket socket = servidor.accept();
+                         DataInputStream entrada = new DataInputStream(socket.getInputStream())) {
+                        RecibirMensaje(entrada);
+                    } catch (IOException ex) {
+                        if (running) {
+                            ex.printStackTrace();
+                        } else {
+                            System.out.println("Servidor detenido.");
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    if (servidor != null && !servidor.isClosed()) {
+                        servidor.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        hiloServidor.start();
     }
 
     public void handleLogIn() {
@@ -138,74 +311,13 @@ public class Metodos {
         if (entradaUsuario.isEmpty() || contrasenaString.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Asegúrese de completar los espacios en blanco");
             return;
-        } else if (credencialesValidas.containsKey(entradaUsuario) && credencialesValidas.get(entradaUsuario).equals(contrasenaString)) {
+        } else if (credencialesValidas.containsKey(entradaUsuario)
+                && credencialesValidas.get(entradaUsuario).equals(contrasenaString)) {
             JOptionPane.showMessageDialog(null, "Bienvenido " + entradaUsuario);
             vistaPrincipal.usuarioLabel.setText(logIn.Usuario_txt.getText());
             vistaPrincipal.setVisible(true);
             logIn.setVisible(false);
-<<<<<<< Updated upstream
-            new Thread(() -> {
-                try {
-                    servidor = new ServerSocket(5000);
-                    System.out.println("Servidor iniciado");
-                    while (true) {
-                        socket = servidor.accept();
-                        try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
-                                ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())) {
-                            RecibirListaPedidos(entrada, salida);
-                            RecibirAplicantes(entrada, salida);
-                        }
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    try {
-                        if (servidor != null && !servidor.isClosed()) {
-                            servidor.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-=======
 
-            try {
-                servidor = new ServerSocket(5000);
-                System.out.println("Servidor iniciado");
-
-                while (true) {
-                    socket = servidor.accept();
-
-                    new Thread(() -> {
-                        try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
-
-                            while (true) {
-
-                                RecibirListaPedidos(inputStream, outputStream);
-                                RecibirAplicantes(inputStream, outputStream);
-
-
-                            }
-
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        } finally {
-
-                            try {
-
-                                socket.close();
-                            } catch (IOException e) {
-
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }).start();
->>>>>>> Stashed changes
-                }
-            }).start();
-           
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
         }
@@ -236,101 +348,69 @@ public class Metodos {
             ex.printStackTrace();
         }
     }
-       
-    
 
-   public void RecibirAplicantes(ObjectInputStream entrada, ObjectOutputStream salida) {
-    try {
-        Object objetoAplicante = entrada.readObject();
-        if (objetoAplicante instanceof ArrayList<?>) {
-            @SuppressWarnings("unchecked")
-            ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
-            System.out.println("ArrayList recibido:" + aplicantes.toString());
-            SwingUtilities.invokeLater(() -> {
-                for (Aplicante aplicante : aplicantes) {
-                    solicitudes.informacionAplicante.append(aplicante.toString() + "\n");
-                }
-            });
-            salida.writeObject(aplicantes);
-            salida.flush();
-        } else {
-            System.err.println("El objeto recibido no es una lista de aplicantes.");
-        }
-    } catch (EOFException e) {
-        // Manejar EOFException (se ha alcanzado el final del flujo de entrada)
-        // Por ejemplo, cerrar el socket y liberar recursos
+    public void RecibirAplicantes(ObjectInputStream entrada, ObjectOutputStream salida) {
         try {
-            socket.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    } catch (ClassNotFoundException | IOException ex) {
-        ex.printStackTrace();
-    } 
-}
-
-
-
-    
-
-    public void RecibirMensaje() {
-
-        try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
-
-            String mensajeRecibido = inputStream.readUTF();
-
-            buzonClientes.mensajeCliente.append(mensajeRecibido);
-
-            /*
-             * String mensajeEnviado = buzonClientes.respuestaServidor.getText().trim();
-             * 
-             * outputStream.writeUTF(mensajeEnviado);
-             */
-
-        } catch (IOException ex) {
+            Object objetoAplicante = entrada.readObject();
+            if (objetoAplicante instanceof ArrayList<?>) {
+                @SuppressWarnings("unchecked")
+                ArrayList<Aplicante> aplicantes = (ArrayList<Aplicante>) objetoAplicante;
+                System.out.println("ArrayList recibido:" + aplicantes.toString());
+                SwingUtilities.invokeLater(() -> {
+                    for (Aplicante aplicante : aplicantes) {
+                        solicitudes.informacionAplicante.append(aplicante.toString() + "\n");
+                    }
+                });
+                salida.writeObject(aplicantes);
+                salida.flush();
+            } else {
+                System.err.println("El objeto recibido no es una lista de aplicantes.");
+            }
+        } catch (EOFException e) {
+            
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } catch (ClassNotFoundException | IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    class ServidorHilo extends Thread {
-
-        private Socket socket;
-
-        public ServidorHilo(Socket socket) {
-            this.socket = socket;
-        }
-
-        public void run() {
-
-            try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
-
-                Object objetoRecibido;
-
-                try {
-                    while ((objetoRecibido = inputStream.readObject()) != null) {
-
-                    }
-                } catch (ClassNotFoundException e) {
-
-                    e.printStackTrace();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    socket.close();
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
+    public void RecibirMensaje(DataInputStream entrada) {
+        try {
+            if (entrada != null) {
+                String mensajeRecibido = entrada.readUTF();
+                buzonClientes.mensajeCliente.append(mensajeRecibido);
+                System.out.println("Mensaje recibido: " + mensajeRecibido);
+            } else {
+                System.err.println("El flujo de entrada es nulo.");
             }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.err.println("Error al recibir el mensaje: " + ex.getMessage());
+        }
+    }
+
+    public void EnviarMensaje() {
+
+        String mensajeServidor = buzonClientes.respuestaServidor.getText().trim();
+
+        if(mensajeServidor.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese un mensaje para enviar al cliente");
+        } else {
+
+            try (DataOutputStream salida = new DataOutputStream(socket.getOutputStream())){
+                salida.writeUTF(mensajeServidor);
+            } catch (IOException e) {
+                
+                e.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null, "Mensaje enviado...");
 
         }
+        
     }
 
 }

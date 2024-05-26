@@ -55,12 +55,13 @@ public class BuzonClientes extends JFrame implements ActionListener {
         botonRefrescar.setBounds(350, 80, 50, 30);
         botonRefrescar.setBackground(new Color(111, 113, 121));
         botonRefrescar.setToolTipText("Refrescar los mensajes enviados por los clientes");
-        ImageIcon iconoRefrescar = new ImageIcon("Vista/Imagenes/refrescar.png");
+        ImageIcon iconoRefrescar = new ImageIcon("Vista/Imagenes/volumen-apagado.png");
         Image imagenRefrescar = iconoRefrescar.getImage();
         Image imagenRefrescarAjustada = imagenRefrescar.getScaledInstance(50, 30, Image.SCALE_SMOOTH);
         ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
+        botonRefrescar.addActionListener(this);
 
         botonEnviar = new JButton();
         botonEnviar.setBounds(350, 380, 60, 30);
@@ -130,6 +131,12 @@ public class BuzonClientes extends JFrame implements ActionListener {
         if(e.getSource() == botonEnviar){
 
             metodos.EnviarMensaje();
+        }
+
+        if(e.getSource() == botonRefrescar){
+
+            
+            metodos.RecibirMensaje();
         }
 
         

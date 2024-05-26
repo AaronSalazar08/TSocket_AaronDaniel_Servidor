@@ -145,6 +145,7 @@ public class Metodos {
             vistaPrincipal.setVisible(true);
             logIn.setVisible(false);
 
+            new Thread(() -> {
             try {
                 servidor = new ServerSocket(5000);
                 System.out.println("Servidor iniciado");
@@ -152,14 +153,14 @@ public class Metodos {
                 while (true) {
                     socket = servidor.accept();
 
-                    Thread hilo = new Thread(() -> {
+                   
                         try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())) {
 
                             while (true) {
 
                                 RecibirListaPedidos(inputStream, outputStream);
-                                RecibirAplicantes(inputStream, outputStream);
+                                //RecibirAplicantes(inputStream, outputStream);
 
 
                             }
@@ -178,13 +179,14 @@ public class Metodos {
 
                         }
 
-                    }); hilo.start();
-                }
-            } catch (IOException e) {
+                    }
+                    
+                } 
+             catch (IOException e) {
 
                 e.printStackTrace();
             }
-
+        }).start();
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
         }
@@ -209,9 +211,10 @@ public class Metodos {
                     }
                 });
 
+                
                 outputStream.writeObject(listaPedidosRecibidos);
                 outputStream.flush();
-
+                
             } else {
                 System.err.println("El objeto recibido no es una lista de pedidos.");
             }
@@ -219,13 +222,18 @@ public class Metodos {
             ex.printStackTrace();
         }
     }
+       
+    
+
+   
 
     public void RecibirAplicantes(ObjectInputStream inputStream, ObjectOutputStream outputStream) {
         try {
-
+    
             Object objetoAplicante = inputStream.readObject();
             System.out.println("Tipo de objeto recibido en RecibirAplicantes: " + objetoAplicante.getClass().getName());
 
+    
             if (objetoAplicante instanceof ArrayList<?>) {
                 @SuppressWarnings("unchecked")
 
@@ -233,6 +241,9 @@ public class Metodos {
 
                 System.out.println("ArrayList recibido:" + aplicantes.toString());
 
+    
+                System.out.println("ArrayList recibido:" + aplicantes);
+    
                 SwingUtilities.invokeLater(() -> {
                     for (Aplicante aplicante : aplicantes) {
 
@@ -240,6 +251,9 @@ public class Metodos {
                     }
                 });
 
+    
+                // No cierres el socket aquí, espera hasta que hayas terminado de comunicarte con el cliente
+    
                 outputStream.writeObject(aplicantes);
                 outputStream.flush();
             } else {
@@ -249,6 +263,7 @@ public class Metodos {
             ex.printStackTrace();
         }
     }
+    
 
     public void mandarNoticia() {
 

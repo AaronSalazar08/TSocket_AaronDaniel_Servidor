@@ -4,11 +4,15 @@ import java.io.Serializable;
 
 public class Aplicante implements Serializable {
 
-    private static final long serialVersionUID = 8799656478674716631L;
+    private static final long serialVersionUID = 8799656478674716631L;// Con esta creacion de la variable long, se
+                                                                      // asegura la conexion serializable Cliente
+                                                                      // Servidor para esta clase especifica
 
+    // Atributos de Aplicante
     protected String cedula, nombre, correo, postulacion, provincia;
     protected int numero;
 
+    // Contructor
     public Aplicante(String cedula, String nombre, String correo, String postulacion, String provincia, int numero) {
         this.cedula = cedula;
         this.nombre = nombre;
@@ -18,6 +22,7 @@ public class Aplicante implements Serializable {
         this.numero = numero;
     }
 
+    // Getters y Setters para cada atributo
     public String getCedula() {
         return cedula;
     }
@@ -66,12 +71,11 @@ public class Aplicante implements Serializable {
         this.numero = numero;
     }
 
+    // Metodo para mostrar los atributos de Aplicante
     @Override
     public String toString() {
         return "Aplicante \nCedula: " + cedula + "\nNombre: " + nombre + "\nCorreo:" + correo + "\nPostula: "
                 + postulacion + "\nProvincia: " + provincia + "\nNumero: " + numero + "]";
     }
-
-    
 
 }

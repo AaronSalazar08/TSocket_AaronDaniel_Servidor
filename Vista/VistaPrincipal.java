@@ -18,6 +18,9 @@ import Controlador.Metodos;
 
 public class VistaPrincipal extends JFrame implements ActionListener {
 
+
+//Metodo para la llamada de los metodos de las constantes mediante una instacia de la clase Metodos 
+
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
     }
@@ -26,13 +29,17 @@ public class VistaPrincipal extends JFrame implements ActionListener {
 
     public JButton botonPedidos, botonEstado, botonNoticias, botonSolicitudesTrabajos, botonAtencionCliente,
             botonCerrarServidor, botonUsuario;
+
     public JLabel Logo_Label, usuarioLabel;
     public JPanel panelVistaPrincipal = new JPanel();
     public ImageIcon Logo;
     public ImageIcon imagen;
     public Icon icono;
 
+    //Metodo constructor 
+
     public VistaPrincipal() {
+        //Inicializando JPanel 
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Menú Servidor");
@@ -43,6 +50,10 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setLayout(null);
 
+        //Inicializando constantes para el JPanel
+
+        //ImagenIcon 
+
         Logo = new ImageIcon("Vista/Imagenes/PIZZA_ROMA.png");
         Image imagenLogo = Logo.getImage();
         Image nuevaImagenLogo = imagenLogo.getScaledInstance(300, 180, Image.SCALE_SMOOTH);
@@ -50,6 +61,8 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         Logo_Label = new JLabel();
         Logo_Label.setIcon(nuevoIconoLogo);
         Logo_Label.setBounds(100, 20, 250, 180);
+
+        //JButton
 
         botonPedidos = new JButton("Ver Pedidos");
         botonPedidos.setBounds(150, 200, 200, 30);
@@ -134,6 +147,8 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         botonUsuario.addActionListener(this);
         this.PintarB(this.botonUsuario, "Vista/Imagenes/usuario.png");
 
+        //JLabel
+
         usuarioLabel = new JLabel();
         usuarioLabel.setBounds(60, 15, 250, 20);
         usuarioLabel.setForeground(new Color(255, 255, 255));
@@ -151,8 +166,10 @@ public class VistaPrincipal extends JFrame implements ActionListener {
 
     }
 
-    private void PintarB(JButton lbl, String ruta) { // Este metodo se utiliza para ponerle imagenes de fondo a los
-        // Labels
+
+    //Metodo para poner imagines a JButton 
+
+    private void PintarB(JButton lbl, String ruta) { 
         this.imagen = new ImageIcon(ruta);
         this.icono = new ImageIcon(
                 this.imagen.getImage().getScaledInstance(
@@ -161,9 +178,11 @@ public class VistaPrincipal extends JFrame implements ActionListener {
                         Image.SCALE_DEFAULT));
         lbl.setIcon(this.icono);
         this.repaint();
-    }// Fin del metodo
+    }
 
 
+
+    //Metodo para la acción de los botones mediante una instancia de la clase de Metodos 
 
     @Override
     public void actionPerformed(ActionEvent e) {

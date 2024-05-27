@@ -12,6 +12,8 @@ import Controlador.Metodos;
 
 public class Noticias extends JFrame implements ActionListener {
 
+    //Metodo para la llamada de los metodos de las constantes mediante una instacia de la clase Metodos 
+
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
     }
@@ -27,7 +29,11 @@ public class Noticias extends JFrame implements ActionListener {
     public JLabel indicacionCliente;
     Font fuente = new Font(TIMES_NEW_ROMAN, Font.BOLD, 14);
 
+    //Metodo constructor 
+    
     public Noticias() {
+
+        //Inicializar JPanel
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Noticias Pizza Roma");
@@ -37,6 +43,10 @@ public class Noticias extends JFrame implements ActionListener {
         panelNoticias.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
+
+        //Inicializar constantes
+
+        //JButtton
         
 
         botonVolver = new JButton();
@@ -68,8 +78,12 @@ public class Noticias extends JFrame implements ActionListener {
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);
 
+        //JTextrea
+
         noticias = new JTextArea(" ");
         noticias.setEditable(true);
+
+        //JScrollPane
 
         scroll = new JScrollPane(noticias);
 
@@ -79,10 +93,14 @@ public class Noticias extends JFrame implements ActionListener {
         scroll.setToolTipText(
                 "Agregar noticias destacas de Pizza Roma");
 
+        //JLabel
+
         indicacionCliente = new JLabel("Noticias Pizza Roma ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
         indicacionCliente.setFont(fuente);
+
+        //Añadir constantes al JPanel
 
         panelNoticias.add(botonVolver);
         panelNoticias.add(botonEnviar);
@@ -91,6 +109,7 @@ public class Noticias extends JFrame implements ActionListener {
 
     }
 
+     //Metodo para la acción de los botones mediante una instancia de la clase de Metodos 
     @Override
     public void actionPerformed(ActionEvent e) {
         

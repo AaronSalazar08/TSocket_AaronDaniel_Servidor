@@ -31,11 +31,12 @@ import Modelo.Pedido;
 
 public class Metodos {
 
-    public ServerSocket servidor;
-    public Socket socket;
-    private Thread hiloServidor;
-    private volatile boolean running = false;
+    public ServerSocket servidor;//Creacion de variable tipo ServerSocket para controlar las funciones del servidor
+    public Socket socket;//Creacion de variable tipo Socket para controlar la conexion del Cliente con el servidor
+    private Thread hiloServidor;//Creacion de variable tipo Thread para controlar hilos para el servidor
+    private volatile boolean running = false;//Creacion de variable tipo booleana para declarar que puede ser modificada por múltiples threads concurrentemente.
 
+    //Declaracion de clases JFrame
     private VistaPrincipal vistaPrincipal;
     private LogIn logIn;
     private BuzonClientes buzonClientes;
@@ -44,6 +45,7 @@ public class Metodos {
     private Solicitudes solicitudes;
     private Pedidos enlacepedidos;
 
+    //Contructor de respectivas clases 
     public Metodos(VistaPrincipal vistaPrincipal, LogIn logIn, BuzonClientes buzonClientes, Estado estado,
             Noticias noticias, Solicitudes solicitudes, Pedidos enlacepedidos) {
         this.vistaPrincipal = vistaPrincipal;
@@ -116,6 +118,8 @@ public class Metodos {
         vistaPrincipal.setVisible(true);
     }
 
+    
+    //Metodo que le lanzara una pregunta al usuario, dependiendo de su respuesta, el programa terminara su ejecucion o permanecera en la misma
     public void cerrarServidor() {
         int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas salir del Servidor?", "confirmacion",
                 JOptionPane.YES_NO_OPTION);
@@ -126,6 +130,7 @@ public class Metodos {
         }
     }
 
+    //Metodo para Iniciar el servidor y que este este a la espera de una solicitud del cliente con respecto a sus pedidos
     public synchronized void IniciarServerPedidos() {
 
         
@@ -133,7 +138,7 @@ public class Metodos {
 
             System.out.println("El servidor ya está en ejecución...");
             return;
-        }
+        }//Por medio de la palabra reservada "synchronized" y este condiconal, se determina si hay un servidor ya en ejecucion, si es asi hara un return
 
         running = true;
         hiloServidor = new Thread(() -> {
@@ -176,6 +181,7 @@ public class Metodos {
         hiloServidor.start();
     }
 
+    //Metodo para detener el servidor
     public synchronized void detenerServidor() {
 
         if (!running) {
@@ -206,6 +212,7 @@ public class Metodos {
     }
     
 
+    //Metodo para Iniciar el servidor y que este este a la espera de una solicitud del cliente como aplicante para trabajar en Pizza Roma
     public synchronized void IniciarServerAplicantes() {
 
         if (running) {
@@ -256,6 +263,7 @@ public class Metodos {
         hiloServidor.start();
     }
 
+    //Metodo para recibir mensaje del Cliente y proyectarlo en un JTextArea
     public synchronized void RecibirMensaje() {
         if (running) {
 
@@ -292,12 +300,13 @@ public class Metodos {
         hiloServidor.start();
     }
 
+    //Mediante este metodo, inicia sesion el usuario
     public void handleLogIn() {
         String entradaUsuario = logIn.Usuario_txt.getText().trim();
         char[] entradaContrasena = logIn.contrasena_txt.getPassword();
         String contrasenaString = new String(entradaContrasena);
         Map<String, String> credencialesValidas = new HashMap<>();
-        credencialesValidas.put("A", "1");
+        credencialesValidas.put("A", "1");//Para cambiar credenciales solo cambio estos dos valores
         if (entradaUsuario.isEmpty() || contrasenaString.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Asegúrese de completar los espacios en blanco");
             return;
@@ -313,7 +322,7 @@ public class Metodos {
         }
 
     }
-
+//Metodo para recibir ArrayList de todos los pedidos realizados por los clientes secuencialmente; es decir, el ultimo pedido que se visualice es el ultimo que se ha realizado
     public void RecibirListaPedidos(ObjectInputStream entrada, ObjectOutputStream salida) {
         try {
 
@@ -340,7 +349,8 @@ public class Metodos {
             ex.printStackTrace();
         }
     }
-
+//Metodo para recibir ArrayList de todos los aplicantes enviador por los clientes secuencialmente; es decir, el ultimo aplicante que se visualice es el ultimo que se ha enviado
+//En esa parte del codigo tuvimos problemas porque A la hora de leer el ArrayList, el error me indicaba que estaba intentando leer el ArrayList de pedido 
     public void RecibirAplicantes(ObjectInputStream entrada, ObjectOutputStream salida) {
         try {
             Object objetoAplicante = entrada.readObject();
@@ -365,6 +375,7 @@ public class Metodos {
         }
     }
 
+    //Metodo para recibir el mensaje del Cliente 
     public void entradaMensaje(DataInputStream entrada) {
         try {
             if (entrada != null) {
@@ -380,6 +391,7 @@ public class Metodos {
         }
     }
 
+    //Metodo par enviar mensaje al cliente
     public void EnviarMensaje() {
 
         String mensajeServidor = buzonClientes.respuestaServidor.getText().trim();

@@ -336,7 +336,7 @@ public class Metodos {
             }
         } catch (EOFException e) {
 
-        } catch (ClassNotFoundException | IOException ex) {
+        } catch (ClassNotFoundException | IOException | ClassCastException ex) {
             ex.printStackTrace();
         }
     }
@@ -360,7 +360,7 @@ public class Metodos {
             }
         } catch (EOFException e) {
 
-        } catch (ClassNotFoundException | IOException ex) {
+        } catch (ClassNotFoundException | IOException | ClassCastException ex) {
             ex.printStackTrace();
         }
     }

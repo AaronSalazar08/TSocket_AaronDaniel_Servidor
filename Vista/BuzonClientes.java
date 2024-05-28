@@ -11,6 +11,7 @@ import javax.swing.*;
 import Controlador.Metodos;
 
 public class BuzonClientes extends JFrame implements ActionListener {
+    //Metodo para la llamada de los metodos de las constantes mediante una instacia de la clase Metodos 
 
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
@@ -26,7 +27,11 @@ public class BuzonClientes extends JFrame implements ActionListener {
     public JLabel enviar, indicacionesCliente, division, respuestaLabel;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
 
+    //Metodo constructor 
+
     public BuzonClientes() {
+
+        //Inicializando JPanel
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Atención al Cliente");
@@ -36,6 +41,10 @@ public class BuzonClientes extends JFrame implements ActionListener {
         panelBuzonClientes.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
+
+        //Inicializando constantes
+
+        //JButton
 
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 500, 50, 30);
@@ -78,6 +87,8 @@ public class BuzonClientes extends JFrame implements ActionListener {
         botonEnviar.setBorderPainted(false);
         botonEnviar.addActionListener(this);
 
+        //JLabel
+
         indicacionesCliente = new JLabel("Mensajes de Clientes: ");
         indicacionesCliente.setBounds(30, 20, 200, 30);
         indicacionesCliente.setForeground(new Color(255, 255, 255));
@@ -94,6 +105,8 @@ public class BuzonClientes extends JFrame implements ActionListener {
         respuestaLabel.setForeground(new Color(255, 255, 255));
         respuestaLabel.setFont(fuente);
 
+        //JTextArea
+
         mensajeCliente = new JTextArea();
         mensajeCliente.setEditable(false);
         scrollCliente = new JScrollPane(mensajeCliente);
@@ -104,10 +117,15 @@ public class BuzonClientes extends JFrame implements ActionListener {
         respuestaServidor = new JTextArea(" ");
         respuestaServidor.setEditable(true);
 
+        //JScrollPane
+        
+
         scrollServidor = new JScrollPane(respuestaServidor);
         scrollServidor.setBorder(BorderFactory.createCompoundBorder(scrollServidor.getBorder(),
                 BorderFactory.createLineBorder(Color.BLACK, 5)));
         scrollServidor.setBounds(20, 350, 300, 100);
+
+        //Añadir constantes al JPanel
 
         panelBuzonClientes.add(botonVolver);
         panelBuzonClientes.add(scrollCliente);
@@ -120,6 +138,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
 
     }
 
+    //Metodo para la acción de los botones mediante una instancia de la clase de Metodos 
     @Override
     public void actionPerformed(ActionEvent e) {
 

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import Controlador.Metodos;
 
 public class Pedidos extends JFrame implements ActionListener {
+    //Metodo para la llamada de los metodos de las constantes mediante una instacia de la clase Metodos 
 
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
@@ -40,7 +41,9 @@ public class Pedidos extends JFrame implements ActionListener {
     public JLabel indicacionCliente;
     Font fuente = new Font("Times New Roman", Font.BOLD, 14);
 
+    //Metodo constructor 
     public Pedidos() {
+        //Inicializando JPanel
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Pedidos");
@@ -50,6 +53,10 @@ public class Pedidos extends JFrame implements ActionListener {
         panelPedidos.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
+
+        //Inicializando constantes 
+
+        //JButton
        
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 400, 50, 30);
@@ -73,7 +80,7 @@ public class Pedidos extends JFrame implements ActionListener {
         ImageIcon iconoRefrescarAjustada = new ImageIcon(imagenRefrescarAjustada);
         botonRefrescar.setIcon(iconoRefrescarAjustada);
         botonRefrescar.setBorderPainted(false);
-        // botonRefrescar.addActionListener(metodos);
+       
 
         botonEnviar = new JButton();
         botonEnviar.setBounds(290, 400, 50, 30);
@@ -88,6 +95,8 @@ public class Pedidos extends JFrame implements ActionListener {
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);
 
+        //JLabel
+
         indicacionCliente = new JLabel("Factura del Cliente: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
@@ -95,13 +104,20 @@ public class Pedidos extends JFrame implements ActionListener {
         pedidoCliente = new JTextArea();
         pedidoCliente.setEditable(false);
 
+        //JTextArea
+
         pedidoCliente = new JTextArea();
         pedidoCliente.setEditable(false);
+
+
+        //JScrollPane
         scroll = new JScrollPane(pedidoCliente);
         scroll.setBounds(30, 80, 300, 280);
         scroll.setBorder(
                 BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos solicitados por los clientes");
+
+        //Añadir constantes al JPanel
 
         panelPedidos.add(botonVolver);
         panelPedidos.add(botonRefrescar);
@@ -111,6 +127,7 @@ public class Pedidos extends JFrame implements ActionListener {
 
     }
 
+    //Metodo para la acción de los botones mediante una instancia de la clase de Metodos 
     @Override
     public void actionPerformed(ActionEvent e) {
         

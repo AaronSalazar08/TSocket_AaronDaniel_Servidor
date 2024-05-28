@@ -6,23 +6,25 @@ import java.io.Serializable;
 
 public class Pedido implements Serializable {
 
-    private static final long serialVersionUID = 8799656478674716632L;
+    private static final long serialVersionUID = 8799656478674716632L;// Con esta creacion de la variable long, se
+                                                                      // asegura la conexion serializable Cliente
+                                                                      // Servidor para esta clase especifica
 
+    // Atributos de Pedido
     private String promocion, direccion, nombreCliente, metodoPago, cantidadPromocion;
-    private ObjectInputStream entrada;
-    private ObjectOutputStream salida;
 
-    public Pedido(String promocion, String direccion, String nombreCliente, String metodoPago, String cantidadPromocion,
-            ObjectInputStream entrada, ObjectOutputStream salida) {
+    // Contructor
+    public Pedido(String promocion, String direccion, String nombreCliente, String metodoPago,
+            String cantidadPromocion) {
         this.promocion = promocion;
         this.direccion = direccion;
         this.nombreCliente = nombreCliente;
         this.metodoPago = metodoPago;
         this.cantidadPromocion = cantidadPromocion;
-        this.entrada = entrada;
-        this.salida = salida;
+
     }
 
+    // Getters y Setters para cada atributo
     public String getPromocion() {
         return promocion;
     }
@@ -63,23 +65,7 @@ public class Pedido implements Serializable {
         this.cantidadPromocion = cantidadPromocion;
     }
 
-    public ObjectInputStream getEntrada() {
-        return entrada;
-    }
-
-    public void setEntrada(ObjectInputStream entrada) {
-        this.entrada = entrada;
-    }
-
-    public ObjectOutputStream getSalida() {
-        return salida;
-    }
-
-    public void setSalida(ObjectOutputStream salida) {
-        this.salida = salida;
-    }
-
-  
+    //Metodo para mostrar los atributos de Pedido
     @Override
     public String toString() {
         return "Pedido\n Promocion: " + promocion + "\nDireccion: " + direccion + "\nNombre: " + nombreCliente

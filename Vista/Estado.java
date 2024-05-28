@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import Controlador.Metodos;
 
 public class Estado extends JFrame implements ActionListener {
+    //Metodo para la llamada de los metodos de las constantes mediante una instacia de la clase Metodos 
+
 
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
@@ -29,6 +31,7 @@ public class Estado extends JFrame implements ActionListener {
 
     DefaultTableModel modeloTabla = new DefaultTableModel(cabecera, 1000000) {
 
+        //Metodo para no permitir poder editar la tabla
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
@@ -37,8 +40,11 @@ public class Estado extends JFrame implements ActionListener {
     JTable tablaPedidos = new JTable(modeloTabla);
     JScrollPane scroll = new JScrollPane(tablaPedidos);
 
+    //Metodo Constructor 
+
     public Estado() {
 
+        //Inicializando JPanel
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Estado de Pedidos");
         setSize(500, 450);
@@ -50,6 +56,9 @@ public class Estado extends JFrame implements ActionListener {
         setLayout(null);
        
 
+        //Inicializando constantes
+
+        //JButton
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 350, 50, 30);
         botonVolver.setBackground(new Color(111, 113, 121));
@@ -77,15 +86,21 @@ public class Estado extends JFrame implements ActionListener {
         botonEnviarEstado.setIcon(iconoEnviarAjustada);
         botonEnviarEstado.setBorderPainted(false);
 
+        //JScrollPane
+
         scroll.setBounds(30, 80, 400, 200);
         scroll.setBorder(
                 BorderFactory.createCompoundBorder(scroll.getBorder(), BorderFactory.createLineBorder(Color.BLACK, 5)));
         scroll.setToolTipText("Aquí apareceran los pedidos realizados por los clientes");
 
+        //JLabel
+
         indicacionCliente = new JLabel("Pedidos Clientes: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
         indicacionCliente.setFont(fuente);
+
+        //Añadir costantes al JPanel
 
         panelEstado.add(botonVolver);
         panelEstado.add(botonEnviarEstado);
@@ -94,6 +109,7 @@ public class Estado extends JFrame implements ActionListener {
 
     }
 
+     //Metodo para la acción de los botones mediante una instancia de la clase de Metodos 
     @Override
     public void actionPerformed(ActionEvent e) {
         

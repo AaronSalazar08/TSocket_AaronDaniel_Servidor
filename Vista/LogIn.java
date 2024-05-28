@@ -19,6 +19,8 @@ import Controlador.Metodos;
 
 
 public class LogIn extends JFrame implements ActionListener {
+     //Metodo para la llamada de los metodos de las constantes mediante una instacia de la clase Metodos 
+
 
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
@@ -33,7 +35,10 @@ public class LogIn extends JFrame implements ActionListener {
     public JButton botonContinuar;
     Font fuente = new Font("Times New Roman", Font.BOLD, 16);
 
+    //Metodo constructor 
+
     public LogIn() {
+        //Inicializando JPanel
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Inciar Sesión");
@@ -43,6 +48,10 @@ public class LogIn extends JFrame implements ActionListener {
         panelLogIn.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
+
+        //Inicializando constantes
+
+        //JLabel
 
         usuario = new JLabel("Usuario");
         usuario.setBounds(110, 25, 150, 30);
@@ -57,21 +66,29 @@ public class LogIn extends JFrame implements ActionListener {
         contrasena.setForeground(new Color(255, 255, 255));
         contrasena.setFont(fuente);
 
+        //JTexfield
+
         Usuario_txt = new JTextField();
         Usuario_txt.setBounds(70, 60, 150, 30);
         Usuario_txt.setToolTipText("Ingrese su nombre de usuario");
         Usuario_txt.setFont(fuente);
+
+        //JPasswordfield
 
         contrasena_txt = new JPasswordField();
         contrasena_txt.setBounds(70, 155, 150, 30);
         contrasena_txt.setToolTipText("Ingrese su contraseña de usuario");
         contrasena_txt.setFont(fuente);
 
+        //JButton
+
         botonContinuar = new JButton("Continuar");
         botonContinuar.setBounds(100, 210, 100, 30);
         botonContinuar.setBackground(new Color(111, 113, 121));
         botonContinuar.setForeground(new Color(255, 255, 255));
        botonContinuar.addActionListener(this);
+
+       //Añadir constantes al JPanel
 
         panelLogIn.add(usuario);
         panelLogIn.add(contrasena);
@@ -81,6 +98,7 @@ public class LogIn extends JFrame implements ActionListener {
        
     }
 
+     //Metodo para la acción de los botones mediante una instancia de la clase de Metodos 
     @Override
     public void actionPerformed(ActionEvent e) {
         

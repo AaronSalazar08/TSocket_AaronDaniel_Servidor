@@ -13,6 +13,7 @@ import Controlador.Metodos;
 
 public class Solicitudes extends JFrame implements ActionListener {
 
+    //Metodo para la llamada se los metodos de las constantes mediante una instacia de Metodos 
     public void setMetodos(Metodos metodos) {
         this.metodos = metodos;
     }
@@ -32,7 +33,10 @@ public class Solicitudes extends JFrame implements ActionListener {
 
     public JScrollPane scroll;
 
+
+    //Metodo constructor 
     public Solicitudes() {
+        //Inicializar JPanel 
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Solicitudes de aplicantes");
@@ -42,6 +46,10 @@ public class Solicitudes extends JFrame implements ActionListener {
         panelSolicitudes.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 4));
         setLocationRelativeTo(null);
         setLayout(null);
+
+        //Inicializando constantes
+
+        //JButton
 
         botonVolver = new JButton("");
         botonVolver.setBounds(40, 400, 50, 30);
@@ -71,6 +79,8 @@ public class Solicitudes extends JFrame implements ActionListener {
         botonEnviar.setIcon(iconoEnviarAjustada);
         botonEnviar.setBorderPainted(false);
 
+        //JRadioButton
+
         contradato = new JRadioButton(CONTRATADO);
         contradato.setForeground(new Color(255, 255, 255));
         contradato.setBounds(400, 400, 100, 30);
@@ -83,12 +93,18 @@ public class Solicitudes extends JFrame implements ActionListener {
         rechazado.setBackground(new Color(26, 28, 37));
         rechazado.setToolTipText("Seleccionar si la tarjeta del cliente está denegada para su uso en la plataforma");
 
+        //ButtonGroup
+
         ButtonGroup grupoRadios = new ButtonGroup();
         grupoRadios.add(contradato);
         grupoRadios.add(rechazado);
 
+        //TextArea
+
         informacionAplicante = new JTextArea();
         informacionAplicante.setEditable(false);
+
+        //JScrollPane
         scroll = new JScrollPane(informacionAplicante);
         scroll.setBounds(30, 80, 400, 300);
         scroll.setBorder(
@@ -96,6 +112,9 @@ public class Solicitudes extends JFrame implements ActionListener {
         scroll.setToolTipText(
                 "Aquí apareceran los datos de los interesados en formar parte del equipo de trabajo de Pizza Roma");
 
+
+        
+        //JLabel
         indicacionCliente = new JLabel("Aplicantes: ");
         indicacionCliente.setBounds(30, 40, 200, 30);
         indicacionCliente.setForeground(new Color(255, 255, 255));
@@ -106,17 +125,20 @@ public class Solicitudes extends JFrame implements ActionListener {
         respuestaLabel.setForeground(new Color(255, 255, 255));
         respuestaLabel.setFont(fuente);
 
+
+        //Agregar constantes al JPanel 
+
         panelSolicitudes.add(botonVolver);
         panelSolicitudes.add(botonEnviar);
         panelSolicitudes.add(contradato);
         panelSolicitudes.add(rechazado);
         panelSolicitudes.add(scroll);
-        // panelSolicitudes.add(informacionAplicante);
         panelSolicitudes.add(indicacionCliente);
         panelSolicitudes.add(respuestaLabel);
 
     }
 
+    //Metodo para la accion de los botones 
     @Override
     public void actionPerformed(ActionEvent e) {
         

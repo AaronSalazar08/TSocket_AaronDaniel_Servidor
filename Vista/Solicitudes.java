@@ -145,7 +145,7 @@ public class Solicitudes extends JFrame implements ActionListener {
         if(e.getSource() == botonVolver){
 
             metodos.solicitudesAprincipal();
-            metodos.detenerServidor();
+          
         }
 
         

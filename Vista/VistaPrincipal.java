@@ -190,7 +190,7 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         if(e.getSource() == botonPedidos){
 
             metodos.principalApedidos();
-            metodos.IniciarServerPedidos();
+          
             
         }
 
@@ -207,7 +207,7 @@ public class VistaPrincipal extends JFrame implements ActionListener {
         if(e.getSource() == botonSolicitudesTrabajos){
 
             metodos.principalAsolicitudes();
-            metodos.IniciarServerAplicantes();
+          
            
         }
 

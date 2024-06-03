@@ -106,6 +106,7 @@ public class LogIn extends JFrame implements ActionListener {
             
             if(metodos != null ){
                 metodos.handleLogIn();
+                metodos.IniciarServer();
 
             }else {
 

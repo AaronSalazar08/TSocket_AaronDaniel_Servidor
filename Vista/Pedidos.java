@@ -134,7 +134,7 @@ public class Pedidos extends JFrame implements ActionListener {
         if(e.getSource() == botonVolver){
 
             metodos.pedidosAprincipal();
-            metodos.detenerServidor();
+           
         }
 
     }

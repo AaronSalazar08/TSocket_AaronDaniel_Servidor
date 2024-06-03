@@ -146,7 +146,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
         if(e.getSource() == botonVolver){
 
             metodos.buzonAprincipal();
-            metodos.detenerServidor();
+           
         }
         if(e.getSource() == botonEnviar){
 
@@ -156,7 +156,7 @@ public class BuzonClientes extends JFrame implements ActionListener {
         if(e.getSource() == botonRefrescar){
 
             
-            metodos.RecibirMensaje();
+          
         }
 
         

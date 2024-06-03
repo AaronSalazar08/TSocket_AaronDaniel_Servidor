@@ -132,7 +132,7 @@ public class Metodos {
 
     // Metodo para Iniciar el servidor y que este este a la espera de una solicitud
     // del cliente con respecto a sus pedidos
-    public synchronized void IniciarServerPedidos() {
+    public synchronized void IniciarServer() {
 
         if (running) {
 
@@ -152,30 +152,16 @@ public class Metodos {
                         try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
                                 ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())) {
                             RecibirListaPedidos(entrada, salida);
+                            RecibirAplicantes(entrada, salida);
                             
                         } catch (IOException ex) {
                             ex.printStackTrace();
-                        } finally {
-                            if (socket != null && !socket.isClosed()) {
-                                try {
-                                    socket.close();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        }
-                    } catch (IOException ex) {
+                        } 
+                    } catch (Exception e){
 
-                        if (running) {
-                            ex.printStackTrace();
-                        } else {
-                            System.out.println("Servidor detenido.");
-                        }
-                        ex.printStackTrace();
+                        e.printStackTrace();
                     }
                 }
-            } catch (EOFException e) {
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -183,124 +169,7 @@ public class Metodos {
         hiloServidor.start();
     }
 
-    // Metodo para detener el servidor
-    public synchronized void detenerServidor() {
-
-        if (!running) {
-            System.out.println("El servidor no está en ejecución");
-            return;
-        }
-
-        running = false; // Cambiar el estado antes de cerrar el servidor
-
-        try {
-            if (servidor != null && !servidor.isClosed()) {
-                servidor.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (hiloServidor != null) {
-                hiloServidor.join(); // Esperar a que el hilo del servidor termine
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Thread.currentThread().interrupt(); // Restaurar el estado de interrupción
-        }
-
-        System.out.println("Servidor detenido");
-    }
-
-    // Metodo para Iniciar el servidor y que este este a la espera de una solicitud
-    // del cliente como aplicante para trabajar en Pizza Roma
-    public synchronized void IniciarServerAplicantes() {
-
-        if (running) {
-
-            System.out.println("El servidor ya está en ejecución...");
-            return;
-        }
-        running = true;
-        hiloServidor = new Thread(() -> {
-            try {
-                servidor = new ServerSocket(5000);
-                System.out.println("Servidor iniciado");
-                while (running) {
-                    try {
-                        socket = servidor.accept();
-                        try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
-                                ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())) {
-                            RecibirListaPedidos(entrada, salida);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        } finally {
-                            if (socket != null && !socket.isClosed()) {
-                                try {
-                                    socket.close();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        }
-                    } catch (IOException ex) {
-
-                        if (running) {
-                            ex.printStackTrace();
-                        } else {
-                            System.out.println("Servidor detenido.");
-                        }
-                        ex.printStackTrace();
-                    }
-                }
-            } catch (EOFException e) {
-
-            }
-
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        hiloServidor.start();
-    }
-
-    // Metodo para recibir mensaje del Cliente y proyectarlo en un JTextArea
-    public synchronized void RecibirMensaje() {
-        if (running) {
-
-            System.out.println("El servidor ya está en ejecución...");
-            return;
-        }
-        running = true;
-        hiloServidor = new Thread(() -> {
-            try {
-                servidor = new ServerSocket(5000);
-                System.out.println("Servidor iniciado");
-                while (running) {
-                    socket = servidor.accept();
-
-                    try (DataInputStream entrada = new DataInputStream(socket.getInputStream())) {
-
-                        entradaMensaje(entrada);
-                    } catch (IOException ex) {
-
-                        if (running) {
-                            ex.printStackTrace();
-                        } else {
-                            System.out.println("Servidor detenido.");
-                        }
-                        ex.printStackTrace();
-                    }
-                }
-            } catch (EOFException e) {
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        hiloServidor.start();
-    }
+    
 
     // Mediante este metodo, inicia sesion el usuario
     public void handleLogIn() {

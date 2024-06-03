@@ -152,6 +152,7 @@ public class Metodos {
                         try (ObjectInputStream entrada = new ObjectInputStream(socket.getInputStream());
                                 ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream())) {
                             RecibirListaPedidos(entrada, salida);
+                            
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         } finally {
